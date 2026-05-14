@@ -1,4 +1,5 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
 
 public class EmailService
@@ -13,18 +14,37 @@ public class EmailService
     public async Task SendCodeAsync(string toEmail, string code)
     {
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Game Auth", "noreply@example.com"));
-        message.To.Add(MailboxAddress.Parse(toEmail));
+
+        message.From.Add(
+            new MailboxAddress("Game Auth", "noreply@example.com")
+        );
+
+        message.To.Add(
+            MailboxAddress.Parse(toEmail)
+        );
+
         message.Subject = "Your access code";
+
         message.Body = new TextPart("plain")
         {
-            Text = $"Your code: {code}. It expires in 5 minutes."
+            Text = $"Your code: {code}"
         };
 
         using var client = new SmtpClient();
-        await client.ConnectAsync(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), true);
-        await client.AuthenticateAsync(_config["Smtp:Username"], _config["Smtp:Password"]);
+
+        await client.ConnectAsync(
+            _config["Smtp:Host"],
+            int.Parse(_config["Smtp:Port"]),
+            SecureSocketOptions.StartTls
+        );
+
+        await client.AuthenticateAsync(
+            _config["Smtp:Username"],
+            _config["Smtp:Password"]
+        );
+
         await client.SendAsync(message);
+
         await client.DisconnectAsync(true);
     }
 }
