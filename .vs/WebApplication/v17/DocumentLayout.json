@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Devolop\\WebApplication\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\front\\textfile.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:front\\textfile.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
       "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\back\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,10 +55,6 @@
       "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:back\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|c:\\devolop\\webapplication\\back\\webapplication.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
       "RelativeMoniker": "D:0:0:{FC0E94B1-8E48-4AB5-A6DC-EBF461A2212F}|WebApplication.csproj|solutionrelative:back\\webapplication.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
@@ -69,24 +73,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\appsettings.json",
-              "RelativeDocumentMoniker": "back\\appsettings.json",
-              "ToolTip": "C:\\Devolop\\WebApplication\\back\\appsettings.json",
-              "RelativeToolTip": "back\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-11T15:49:17.179Z",
+              "DocumentIndex": 0,
+              "Title": "TextFile.txt",
+              "DocumentMoniker": "C:\\Devolop\\WebApplication\\front\\TextFile.txt",
+              "RelativeDocumentMoniker": "front\\TextFile.txt",
+              "ToolTip": "C:\\Devolop\\WebApplication\\front\\TextFile.txt",
+              "RelativeToolTip": "front\\TextFile.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-05-30T22:05:26.079Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "LeaderboardCacheService .cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\LeaderboardCacheService .cs",
               "RelativeDocumentMoniker": "back\\LeaderboardCacheService .cs",
@@ -94,12 +98,11 @@
               "RelativeToolTip": "back\\LeaderboardCacheService .cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-29T16:04:37.58Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-29T16:04:37.58Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\Program.cs",
               "RelativeDocumentMoniker": "back\\Program.cs",
@@ -107,12 +110,11 @@
               "RelativeToolTip": "back\\Program.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAAB0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T15:17:52.993Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:17:52.993Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "AccessCode.cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\AccessCode.cs",
               "RelativeDocumentMoniker": "back\\AccessCode.cs",
@@ -120,25 +122,48 @@
               "RelativeToolTip": "back\\AccessCode.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T15:35:22.196Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:35:22.196Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\README.md",
               "RelativeDocumentMoniker": "README.md",
               "ToolTip": "C:\\Devolop\\WebApplication\\README.md",
               "RelativeToolTip": "README.md",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
               "WhenOpened": "2026-05-16T13:04:12.244Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Devolop\\WebApplication\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Devolop\\WebApplication\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-16T13:11:44.994Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\appsettings.json",
+              "RelativeDocumentMoniker": "back\\appsettings.json",
+              "ToolTip": "C:\\Devolop\\WebApplication\\back\\appsettings.json",
+              "RelativeToolTip": "back\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-11T15:49:17.179Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": ".gitattributes",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\.gitattributes",
               "RelativeDocumentMoniker": ".gitattributes",
@@ -146,12 +171,11 @@
               "RelativeToolTip": ".gitattributes",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-05-19T18:53:03.951Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:53:03.951Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\EmailService.cs",
               "RelativeDocumentMoniker": "back\\EmailService.cs",
@@ -159,12 +183,11 @@
               "RelativeToolTip": "back\\EmailService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T15:55:32.988Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:55:32.988Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Index.html",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\front\\Index.html",
               "RelativeDocumentMoniker": "front\\Index.html",
@@ -172,25 +195,23 @@
               "RelativeToolTip": "front\\Index.html",
               "ViewState": "AgIAAOcAAAAAAAAAAAAkwAMBAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-05-12T18:17:36.464Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-12T18:17:36.464Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "WebApplication",
+              "DocumentIndex": 10,
+              "Title": "WebApplication.csproj",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\WebApplication.csproj",
               "RelativeDocumentMoniker": "WebApplication.csproj",
               "ToolTip": "C:\\Devolop\\WebApplication\\WebApplication.csproj",
               "RelativeToolTip": "WebApplication.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-30T21:25:38.722Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-30T21:25:38.722Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "AuthRepository.cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\AuthRepository.cs",
               "RelativeDocumentMoniker": "back\\AuthRepository.cs",
@@ -198,12 +219,11 @@
               "RelativeToolTip": "back\\AuthRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAIMAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T15:41:31.612Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:41:31.612Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\User.cs",
               "RelativeDocumentMoniker": "back\\User.cs",
@@ -211,25 +231,11 @@
               "RelativeToolTip": "back\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T15:28:48.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:28:48.777Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Devolop\\WebApplication\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Devolop\\WebApplication\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-16T13:11:44.994Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "WebApplication.http",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\WebApplication.http",
               "RelativeDocumentMoniker": "back\\WebApplication.http",
@@ -237,12 +243,11 @@
               "RelativeToolTip": "back\\WebApplication.http",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2026-05-11T15:17:52.607Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-11T15:17:52.607Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Devolop\\WebApplication\\back\\appsettings.Development.json",
               "RelativeDocumentMoniker": "back\\appsettings.Development.json",
@@ -254,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "index.html",
               "DocumentMoniker": "C:\\Devolop\\index.html",
               "RelativeDocumentMoniker": "..\\index.html",
