@@ -6,6 +6,7 @@ using MySql.Data.MySqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавляем сервисы
+builder.Services.AddHostedService<LeaderboardCacheService>();
 builder.Services.AddSingleton<AuthRepository>();
 builder.Services.AddSingleton<EmailService>();
 builder.Services.AddCors(options =>
@@ -78,8 +79,13 @@ app.MapPost("/register", async (RegisterRequest request, AuthRepository repo) =>
 
     return Results.Ok("User created");
 });
+app.MapGet("/leaderboard", () =>
+{
+    return Results.Ok(LeaderboardCacheService.TopPlayers);
+});
 
 app.Run();
+
 
 // --- DTOs ---
 public record RequestCodeRequest(string Login);

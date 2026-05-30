@@ -1,0 +1,5 @@
+@WebApplication_HostAddress = https://localhost:7042
+
+GET https://localhost:7042/weatherforecast/
+
+###

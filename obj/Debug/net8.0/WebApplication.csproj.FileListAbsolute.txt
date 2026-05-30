@@ -6,8 +6,6 @@ C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.AssemblyInfo.cs
 C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.csproj.CoreCompileInputs.cache
 C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.MvcApplicationPartsAssemblyInfo.cs
 C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.MvcApplicationPartsAssemblyInfo.cache
-C:\Devolop\WebApplication\bin\Debug\net8.0\appsettings.Development.json
-C:\Devolop\WebApplication\bin\Debug\net8.0\appsettings.json
 C:\Devolop\WebApplication\bin\Debug\net8.0\WebApplication.staticwebassets.endpoints.json
 C:\Devolop\WebApplication\bin\Debug\net8.0\WebApplication.exe
 C:\Devolop\WebApplication\bin\Debug\net8.0\WebApplication.deps.json
@@ -55,3 +53,6 @@ C:\Devolop\WebApplication\obj\Debug\net8.0\refint\WebApplication.dll
 C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.pdb
 C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.genruntimeconfig.cache
 C:\Devolop\WebApplication\obj\Debug\net8.0\ref\WebApplication.dll
+C:\Devolop\WebApplication\obj\Debug\net8.0\WebApplication.sourcelink.json
+C:\Devolop\WebApplication\bin\Debug\net8.0\back\appsettings.Development.json
+C:\Devolop\WebApplication\bin\Debug\net8.0\back\appsettings.json

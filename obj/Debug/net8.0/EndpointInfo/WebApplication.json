@@ -70,6 +70,18 @@
           }
         }
       }
+    },
+    "/leaderboard": {
+      "get": {
+        "tags": [
+          "WebApplication"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

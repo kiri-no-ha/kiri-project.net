@@ -1,2 +1,168 @@
 # WebApplication
 
+// ========================
+// API-клиент для взаимодействия с сервером (C# ASP.NET Core)
+// ========================
+вообще для начала работы создай бдшку желатьельно на MySQL
+с таким то портом: 7042
+с таблицами 
+access_codes: id | user_id | code | expires_at | used
+
+users: id | username | email | wins | losses | total_games | playtime_minutes
+
+рекомендую заполнить рандомными значениями, предоставить ориджинал бдшку не могу
+так что оставлю +- то как их создать я использовал mySQL
+
+-- 1. Создание таблицы пользователей со статистикой
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    wins INT DEFAULT 0,
+    losses INT DEFAULT 0,
+    total_games INT DEFAULT 0,
+    playtime_minutes INT DEFAULT 0
+);
+
+-- 2. Создание таблицы кодов доступа, привязанной к пользователям
+CREATE TABLE access_codes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used TINYINT(1) DEFAULT 0,
+    
+    -- Связь между таблицами: удаление пользователя удалит и его коды
+    CONSTRAINT fk_access_codes_user 
+        FOREIGN KEY (user_id) 
+        REFERENCES users(id) 
+        ON DELETE CASCADE
+);
+
+================================================================================
+
+
+// ========================
+// Примеры использования
+// ========================
+
+// 1. Регистрация
+// const regResult = await api.register('CoolGamer', 'cool@example.com');
+// if (regResult.success) alert('Регистрация успешна!');
+// else alert('Ошибка: ' + regResult.message);
+
+// 2. Запрос кода
+// const codeResult = await api.requestCode('CoolGamer');
+// if (codeResult.success) {
+//     // показать поле для ввода кода
+// } else alert(codeResult.message);
+
+// 3. Верификация кода
+// const verifyResult = await api.verifyCode('CoolGamer', '123456');
+// if (verifyResult.success) alert('Доступ разрешён');
+// else alert(verifyResult.message);
+
+// 4. Получить лидерборд и отобразить
+// const lb = await api.getLeaderboard();
+// if (lb.success) {
+//     lb.data.forEach((user, idx) => {
+//         console.log(`${idx+1}. ${user.username} — побед: ${user.wins}`);
+//     });
+// } else console.error(lb.message);
+
+
+================================================================================
+
+
+Это пример использования который сгенерила иишка 
+можешь не читать ибо как пример оно реализовано в index.html
+
+
+const API_BASE = 'https://localhost:7042';
+
+const api = {
+    /**
+     * Регистрация нового пользователя
+     * @param {string} username - логин
+     * @param {string} email - email
+     * @returns {Promise<{success: boolean, message: string}>}
+     */
+    async register(username, email) {
+        try {
+            const res = await fetch(`${API_BASE}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email })
+            });
+            const text = await res.text();
+            return { success: res.ok, message: text };
+        } catch {
+            return { success: false, message: 'Сервер недоступен' };
+        }
+    },
+
+    /**
+     * Запросить код подтверждения на email (шаг 1 входа)
+     * @param {string} login - username или email
+     * @returns {Promise<{success: boolean, message: string}>}
+     */
+    async requestCode(login) {
+        try {
+            const res = await fetch(`${API_BASE}/request-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login })
+            });
+            const text = await res.text();
+            return { success: res.ok, message: text };
+        } catch {
+            return { success: false, message: 'Сервер недоступен' };
+        }
+    },
+
+    /**
+     * Проверить код и завершить вход (шаг 2 входа)
+     * @param {string} login - username или email
+     * @param {string} code - 6-значный код из письма
+     * @returns {Promise<{success: boolean, message: string}>}
+     */
+    async verifyCode(login, code) {
+        try {
+            const res = await fetch(`${API_BASE}/verify-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login, code })
+            });
+            const text = await res.text();
+            return { success: res.ok, message: text };
+        } catch {
+            return { success: false, message: 'Сервер недоступен' };
+        }
+    },
+
+    /**
+     * Получить таблицу лидеров (топ-100 по победам)
+     * @returns {Promise<{success: boolean, data: Array, message?: string}>}
+     * 
+     * Каждый объект в data содержит поля:
+     * - id (number)
+     * - username (string)
+     * - email (string)
+     * - wins (number)
+     * - losses (number)
+     * - totalGames (number)
+     * - playtimeMinutes (number)
+     */
+    async getLeaderboard() {
+        try {
+            const res = await fetch(`${API_BASE}/leaderboard`);
+            if (!res.ok) {
+                return { success: false, message: await res.text(), data: [] };
+            }
+            const data = await res.json();
+            return { success: true, data };
+        } catch {
+            return { success: false, message: 'Сервер недоступен', data: [] };
+        }
+    }
+};
