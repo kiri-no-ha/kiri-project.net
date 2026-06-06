@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-6);
+    }
+
+    .auth-wrap {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .auth-logo {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: var(--space-2);
+    }
+
+    .auth-logo span { color: var(--accent); }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-2) 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-wrap">
+
+    <div class="auth-logo">Game<span>.</span></div>
+
+    <!-- Регистрация -->
+    <div class="card">
+      <div class="card__title">Регистрация</div>
+
+      <div class="form-group">
+        <label class="form-label" for="regUsername">Username</label>
+        <input class="form-input" type="text" id="regUsername" placeholder="CoolGamer" autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regEmail">Email</label>
+        <input class="form-input" type="email" id="regEmail" placeholder="cool@example.com" autocomplete="email">
+      </div>
+
+      <button class="btn btn--primary" id="registerBtn">Создать аккаунт</button>
+      <div class="msg" id="registerMsg"></div>
+    </div>
+
+    <!-- Вход -->
+    <div class="card">
+      <div class="card__title">Вход</div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginInput">Username или Email</label>
+        <input class="form-input" type="text" id="loginInput" placeholder="CoolGamer" autocomplete="username">
+      </div>
+
+      <button class="btn btn--primary" id="sendCodeBtn">Получить код</button>
+      <div class="msg" id="loginMsg"></div>
+
+      <div id="codeSection" class="hidden">
+        <div class="divider" style="margin: var(--space-6) 0;"></div>
+
+        <div class="form-group">
+          <label class="form-label" for="codeInput">Код из письма</label>
+          <input class="form-input" type="text" id="codeInput" placeholder="123456" maxlength="6" autocomplete="one-time-code">
+        </div>
+
+        <button class="btn btn--ghost" id="verifyBtn">Войти</button>
+        <div class="msg" id="verifyMsg"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./js/auth.js"></script>
+</body>
+</html>
