@@ -79,8 +79,13 @@ body {
 }
 
 img { display: block; max-width: 100%; }
-button { cursor: pointer; font: inherit; }
-input, button, select, textarea { color: inherit; }
+button { cursor: pointer; }
+
+/* Явно прописываем шрифт для всех форм-элементов — браузеры не наследуют его автоматически */
+input, button, select, textarea, label {
+  font-family: var(--font-body);
+  color: inherit;
+}
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
@@ -165,6 +170,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   padding: 11px var(--space-4);
   border: none;
+  font-family: var(--font-body);
   font-size: 15px;
   font-weight: 500;
   transition: background var(--transition), opacity var(--transition), transform var(--transition);
@@ -206,6 +212,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form-label {
+  font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
@@ -219,11 +226,15 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
+  font-family: var(--font-body);
   font-size: 15px;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-.form-input::placeholder { color: var(--text-faint); }
+.form-input::placeholder {
+  color: var(--text-faint);
+  font-family: var(--font-body);
+}
 
 .form-input:focus {
   outline: none;
@@ -272,6 +283,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  font-family: var(--font-body);
 }
 
 thead th {
