@@ -4,54 +4,190 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Вход — Game</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <style>
+    /* === Стартовый экран === */
     body {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      min-height: 100dvh;
       padding: var(--space-6);
     }
 
-    .auth-wrap {
-      width: 100%;
-      max-width: 420px;
+    .auth-landing {
       display: flex;
       flex-direction: column;
-      gap: var(--space-6);
+      align-items: center;
+      gap: var(--space-10);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
     }
 
     .auth-logo {
-      text-align: center;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
+      font-family: var(--font-display);
+      font-size: 42px;
       color: var(--text);
-      margin-bottom: var(--space-2);
+      letter-spacing: -1px;
+    }
+    .auth-logo span { color: var(--accent); }
+
+    .auth-tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: calc(var(--space-2) * -1);
     }
 
-    .auth-logo span { color: var(--accent); }
+    .auth-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      width: 100%;
+    }
+
+    .auth-actions .btn {
+      font-family: var(--font-body);
+      font-size: 16px;
+      padding: 14px var(--space-4);
+    }
+
+    /* === Модальное окно === */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 420px;
+      padding: var(--space-8);
+      position: relative;
+      transform: translateY(12px);
+      transition: transform 200ms ease;
+    }
+
+    .modal-overlay.is-open .modal {
+      transform: translateY(0);
+    }
+
+    .modal__close {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: var(--space-1);
+      transition: color var(--transition);
+    }
+    .modal__close:hover { color: var(--text); }
+
+    .modal__title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: var(--space-6);
+      color: var(--text);
+    }
+
+    .modal__switch {
+      margin-top: var(--space-5);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .modal__switch button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 13px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .modal__switch button:hover { color: var(--accent-hover); }
 
     .divider {
       height: 1px;
       background: var(--border);
-      margin: var(--space-2) 0;
+      margin: var(--space-5) 0;
     }
   </style>
 </head>
 <body>
 
-  <div class="auth-wrap">
+  <!-- Стартовый экран -->
+  <div class="auth-landing">
+    <div>
+      <div class="auth-logo">Game<span>.</span></div>
+      <div class="auth-tagline">Выбери действие, чтобы продолжить</div>
+    </div>
 
-    <div class="auth-logo">Game<span>.</span></div>
+    <div class="auth-actions">
+      <button class="btn btn--primary" id="openLoginBtn">Войти</button>
+      <button class="btn btn--ghost" id="openRegisterBtn">Зарегистрироваться</button>
+    </div>
+  </div>
 
-    <!-- Регистрация -->
-    <div class="card">
-      <div class="card__title">Регистрация</div>
+  <!-- Модальное окно: Вход -->
+  <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-label="Вход">
+    <div class="modal">
+      <button class="modal__close" id="closeLoginBtn" aria-label="Закрыть">&times;</button>
+      <div class="modal__title">Вход</div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginInput">Username или Email</label>
+        <input class="form-input" type="text" id="loginInput" placeholder="CoolGamer" autocomplete="username">
+      </div>
+
+      <button class="btn btn--primary" id="sendCodeBtn">Получить код</button>
+      <div class="msg" id="loginMsg"></div>
+
+      <div id="codeSection" class="hidden">
+        <div class="divider"></div>
+        <div class="form-group">
+          <label class="form-label" for="codeInput">Код из письма</label>
+          <input class="form-input" type="text" id="codeInput" placeholder="123456" maxlength="6" autocomplete="one-time-code">
+        </div>
+        <button class="btn btn--ghost" id="verifyBtn">Войти</button>
+        <div class="msg" id="verifyMsg"></div>
+      </div>
+
+      <div class="modal__switch">
+        Нет аккаунта?
+        <button id="switchToRegisterBtn">Зарегистрироваться</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно: Регистрация -->
+  <div class="modal-overlay" id="registerModal" role="dialog" aria-modal="true" aria-label="Регистрация">
+    <div class="modal">
+      <button class="modal__close" id="closeRegisterBtn" aria-label="Закрыть">&times;</button>
+      <div class="modal__title">Регистрация</div>
 
       <div class="form-group">
         <label class="form-label" for="regUsername">Username</label>
@@ -65,36 +201,63 @@
 
       <button class="btn btn--primary" id="registerBtn">Создать аккаунт</button>
       <div class="msg" id="registerMsg"></div>
-    </div>
 
-    <!-- Вход -->
-    <div class="card">
-      <div class="card__title">Вход</div>
-
-      <div class="form-group">
-        <label class="form-label" for="loginInput">Username или Email</label>
-        <input class="form-input" type="text" id="loginInput" placeholder="CoolGamer" autocomplete="username">
-      </div>
-
-      <button class="btn btn--primary" id="sendCodeBtn">Получить код</button>
-      <div class="msg" id="loginMsg"></div>
-
-      <div id="codeSection" class="hidden">
-        <div class="divider" style="margin: var(--space-6) 0;"></div>
-
-        <div class="form-group">
-          <label class="form-label" for="codeInput">Код из письма</label>
-          <input class="form-input" type="text" id="codeInput" placeholder="123456" maxlength="6" autocomplete="one-time-code">
-        </div>
-
-        <button class="btn btn--ghost" id="verifyBtn">Войти</button>
-        <div class="msg" id="verifyMsg"></div>
+      <div class="modal__switch">
+        Уже есть аккаунт?
+        <button id="switchToLoginBtn">Войти</button>
       </div>
     </div>
-
   </div>
 
   <script src="./config.js"></script>
   <script src="./js/auth.js"></script>
+  <script>
+    // === Управление модальными окнами ===
+    const loginModal    = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+
+    function openModal(modal) {
+      modal.classList.add('is-open');
+      // Фокус на первый инпут
+      const firstInput = modal.querySelector('.form-input');
+      if (firstInput) setTimeout(() => firstInput.focus(), 220);
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove('is-open');
+    }
+
+    function switchModal(from, to) {
+      closeModal(from);
+      setTimeout(() => openModal(to), 220);
+    }
+
+    // Открыть
+    document.getElementById('openLoginBtn').addEventListener('click', () => openModal(loginModal));
+    document.getElementById('openRegisterBtn').addEventListener('click', () => openModal(registerModal));
+
+    // Закрыть по крестику
+    document.getElementById('closeLoginBtn').addEventListener('click', () => closeModal(loginModal));
+    document.getElementById('closeRegisterBtn').addEventListener('click', () => closeModal(registerModal));
+
+    // Закрыть по клику на фон
+    [loginModal, registerModal].forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal(overlay);
+      });
+    });
+
+    // Закрыть по Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal(loginModal);
+        closeModal(registerModal);
+      }
+    });
+
+    // Переключение между модалками
+    document.getElementById('switchToRegisterBtn').addEventListener('click', () => switchModal(loginModal, registerModal));
+    document.getElementById('switchToLoginBtn').addEventListener('click', () => switchModal(registerModal, loginModal));
+  </script>
 </body>
 </html>
