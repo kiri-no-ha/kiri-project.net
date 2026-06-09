@@ -6,7 +6,6 @@
   <title>Вход — Game</title>
   <link rel="stylesheet" href="./css/style.css">
   <style>
-    /* === Стартовый экран === */
     body {
       display: flex;
       flex-direction: column;
@@ -20,7 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-10);
+      gap: var(--space-8);
       width: 100%;
       max-width: 360px;
       text-align: center;
@@ -34,26 +33,44 @@
     }
     .auth-logo span { color: var(--accent); }
 
-    .auth-tagline {
-      font-size: 15px;
-      color: var(--text-muted);
-      margin-top: calc(var(--space-2) * -1);
-    }
-
-    .auth-actions {
+    /* === Форма входа на основном экране === */
+    .login-form {
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: var(--space-3);
-      width: 100%;
     }
 
-    .auth-actions .btn {
+    .login-form .form-group {
+      text-align: left;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: var(--space-2) 0;
+    }
+
+    .register-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .register-hint button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 13px;
       font-family: var(--font-body);
-      font-size: 16px;
-      padding: 14px var(--space-4);
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
+    .register-hint button:hover { color: var(--accent-hover); }
 
-    /* === Модальное окно === */
+    /* === Модальное окно регистрации === */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -109,55 +126,15 @@
       margin-bottom: var(--space-6);
       color: var(--text);
     }
-
-    .modal__switch {
-      margin-top: var(--space-5);
-      font-size: 13px;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    .modal__switch button {
-      background: none;
-      border: none;
-      color: var(--accent);
-      font-size: 13px;
-      font-family: var(--font-body);
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .modal__switch button:hover { color: var(--accent-hover); }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: var(--space-5) 0;
-    }
   </style>
 </head>
 <body>
 
-  <!-- Стартовый экран -->
+  <!-- Стартовый экран: лого + форма входа -->
   <div class="auth-landing">
-    <div>
-      <div class="auth-logo">Game<span>.</span></div>
-      <div class="auth-tagline">Выбери действие, чтобы продолжить</div>
-    </div>
+    <div class="auth-logo">Game<span>.</span></div>
 
-    <div class="auth-actions">
-      <button class="btn btn--primary" id="openLoginBtn">Войти</button>
-      <button class="btn btn--ghost" id="openRegisterBtn">Зарегистрироваться</button>
-    </div>
-  </div>
-
-  <!-- Модальное окно: Вход -->
-  <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-label="Вход">
-    <div class="modal">
-      <button class="modal__close" id="closeLoginBtn" aria-label="Закрыть">&times;</button>
-      <div class="modal__title">Вход</div>
-
+    <div class="login-form">
       <div class="form-group">
         <label class="form-label" for="loginInput">Username или Email</label>
         <input class="form-input" type="text" id="loginInput" placeholder="CoolGamer" autocomplete="username">
@@ -176,9 +153,8 @@
         <div class="msg" id="verifyMsg"></div>
       </div>
 
-      <div class="modal__switch">
-        Нет аккаунта?
-        <button id="switchToRegisterBtn">Зарегистрироваться</button>
+      <div class="register-hint">
+        Нет аккаунта? <button id="openRegisterBtn">Зарегистрироваться</button>
       </div>
     </div>
   </div>
@@ -201,57 +177,34 @@
 
       <button class="btn btn--primary" id="registerBtn">Создать аккаунт</button>
       <div class="msg" id="registerMsg"></div>
-
-      <div class="modal__switch">
-        Уже есть аккаунт?
-        <button id="switchToLoginBtn">Войти</button>
-      </div>
     </div>
   </div>
 
   <script src="./config.js"></script>
   <script src="./js/auth.js"></script>
   <script>
-    // === Управление модальными окнами ===
-    const loginModal    = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
 
-    function openModal(modal) {
-      modal.classList.add('is-open');
-      const firstInput = modal.querySelector('.form-input');
+    function openModal() {
+      registerModal.classList.add('is-open');
+      const firstInput = registerModal.querySelector('.form-input');
       if (firstInput) setTimeout(() => firstInput.focus(), 220);
     }
 
-    function closeModal(modal) {
-      modal.classList.remove('is-open');
+    function closeModal() {
+      registerModal.classList.remove('is-open');
     }
 
-    function switchModal(from, to) {
-      closeModal(from);
-      setTimeout(() => openModal(to), 220);
-    }
+    document.getElementById('openRegisterBtn').addEventListener('click', openModal);
+    document.getElementById('closeRegisterBtn').addEventListener('click', closeModal);
 
-    document.getElementById('openLoginBtn').addEventListener('click', () => openModal(loginModal));
-    document.getElementById('openRegisterBtn').addEventListener('click', () => openModal(registerModal));
-
-    document.getElementById('closeLoginBtn').addEventListener('click', () => closeModal(loginModal));
-    document.getElementById('closeRegisterBtn').addEventListener('click', () => closeModal(registerModal));
-
-    [loginModal, registerModal].forEach(overlay => {
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) closeModal(overlay);
-      });
+    registerModal.addEventListener('click', e => {
+      if (e.target === registerModal) closeModal();
     });
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        closeModal(loginModal);
-        closeModal(registerModal);
-      }
+      if (e.key === 'Escape') closeModal();
     });
-
-    document.getElementById('switchToRegisterBtn').addEventListener('click', () => switchModal(loginModal, registerModal));
-    document.getElementById('switchToLoginBtn').addEventListener('click', () => switchModal(registerModal, loginModal));
   </script>
 </body>
 </html>
