@@ -44,7 +44,7 @@
       display: flex;
       flex-direction: column;
       gap: var(--space-3);
-      width: 100%;
+      width: 240px;
     }
 
     .auth-actions .btn {
@@ -218,7 +218,6 @@
 
     function openModal(modal) {
       modal.classList.add('is-open');
-      // Фокус на первый инпут
       const firstInput = modal.querySelector('.form-input');
       if (firstInput) setTimeout(() => firstInput.focus(), 220);
     }
@@ -232,22 +231,18 @@
       setTimeout(() => openModal(to), 220);
     }
 
-    // Открыть
     document.getElementById('openLoginBtn').addEventListener('click', () => openModal(loginModal));
     document.getElementById('openRegisterBtn').addEventListener('click', () => openModal(registerModal));
 
-    // Закрыть по крестику
     document.getElementById('closeLoginBtn').addEventListener('click', () => closeModal(loginModal));
     document.getElementById('closeRegisterBtn').addEventListener('click', () => closeModal(registerModal));
 
-    // Закрыть по клику на фон
     [loginModal, registerModal].forEach(overlay => {
       overlay.addEventListener('click', e => {
         if (e.target === overlay) closeModal(overlay);
       });
     });
 
-    // Закрыть по Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeModal(loginModal);
@@ -255,7 +250,6 @@
       }
     });
 
-    // Переключение между модалками
     document.getElementById('switchToRegisterBtn').addEventListener('click', () => switchModal(loginModal, registerModal));
     document.getElementById('switchToLoginBtn').addEventListener('click', () => switchModal(registerModal, loginModal));
   </script>
