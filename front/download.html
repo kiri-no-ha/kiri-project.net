@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Скачать игру — Game</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        .download-hero {
+            text-align: center;
+            margin-bottom: var(--space-10);
+        }
+
+        .download-hero__title {
+            font-size: 32px;
+            margin-bottom: var(--space-4);
+        }
+
+        .download-hero__subtitle {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-muted);
+        }
+
+        .download-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        .download-card__title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: var(--space-4);
+        }
+
+        .download-card__text {
+            color: var(--text-muted);
+            margin-bottom: var(--space-6);
+        }
+
+        .download-btn {
+            max-width: 280px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+            gap: var(--space-5);
+        }
+
+        .info-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-6);
+        }
+
+        .info-box__title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: var(--space-3);
+            letter-spacing: 1px;
+        }
+
+        .info-box__content {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--surface-2);
+            color: var(--accent);
+            margin-bottom: var(--space-4);
+            font-size: 14px;
+        }
+
+        .banner {
+            width: 100%;
+            height: 280px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-faint);
+            margin-bottom: var(--space-8);
+        }
+
+            .banner img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .system-list {
+            list-style: none;
+        }
+
+            .system-list li {
+                margin-bottom: 8px;
+            }
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="./leaderboard.html" class="navbar__logo">
+            Game<span style="color:var(--accent)">.</span>
+        </a>
+
+        <ul class="navbar__links">
+            <li><a href="./leaderboard.html">Лидерборд</a></li>
+            <li><a href="./profile.html">Профиль</a></li>
+            <li><a href="./download.html" class="active">Скачать</a></li>
+        </ul>
+
+        <div class="navbar__user">
+            Игрок: <span id="navUsername">—</span>
+        </div>
+    </nav>
+
+    <main class="page">
+        <div class="container">
+
+            <section class="download-hero">
+
+                <h1 class="page__title download-hero__title">
+                    Скачать игру
+                </h1>
+
+                <p class="download-hero__subtitle">
+                    Здесь будет краткое описание игры.
+                    Замени этот текст своим.
+                </p>
+
+            </section>
+
+            <div class="banner">
+
+                <!-- Вариант со скриншотом -->
+                <!--
+                <img src="./img/banner.jpg" alt="Game Banner">
+                -->
+                Скриншот игры
+
+            </div>
+
+            <section class="download-card">
+
+                <div class="version-badge">
+                    Версия 1.0.0
+                </div>
+
+                <div class="download-card__title">
+                    Последняя сборка
+                </div>
+
+                <div class="download-card__text">
+                    Здесь размести описание текущего билда,
+                    изменений и дополнительную информацию.
+                </div>
+
+                <a href="./downloads/Game.zip"
+                   class="btn btn--primary download-btn"
+                   download>
+                    Скачать игру
+                </a>
+
+            </section>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <div class="info-box__title">
+                        О проекте
+                    </div>
+
+                    <div class="info-box__content">
+                        Здесь будет описание проекта.
+                        Можно вставлять сколько угодно текста.
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-box__title">
+                        Особенности
+                    </div>
+
+                    <div class="info-box__content">
+                        • Большие карты<br>
+                        • Сетевая игра<br>
+                        • Рейтинговая система<br>
+                        • Достижения
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-box__title">
+                        Системные требования
+                    </div>
+
+                    <div class="info-box__content">
+
+                        <ul class="system-list">
+                            <li>Windows 10 / 11</li>
+                            <li>4 ГБ ОЗУ</li>
+                            <li>DirectX 11</li>
+                            <li>Любой современный CPU</li>
+                            <li>500 МБ свободного места</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+const currentUser = sessionStorage.getItem('username');
+const navUsername = document.getElementById('navUsername');
+
+if(currentUser){
+    navUsername.textContent = currentUser;
+}
+    </script>
+
+</body>
+</html>
