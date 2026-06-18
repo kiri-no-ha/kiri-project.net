@@ -1,3 +1,85 @@
-*.vsidx
-*.vsidx
-*.cache
+# ==========================
+# C# и .NET
+# ==========================
+# Результаты сборки
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Папка с метаданными Visual Studio
+.vs/
+
+# Резервные копии (Visual Studio)
+_ReSharper.*/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.DotSettings
+
+# Файлы конфигурации NuGet
+packages/
+!packages/build/
+nuget.exe
+*.nupkg
+
+# ==========================
+# HTML, CSS, JS и Web
+# ==========================
+# Зависимости
+/node_modules/
+/bower_components/
+
+# Автоматически генерируемые файлы сборки (например, Vite, Webpack)
+/dist/
+/build/
+.output/
+.nuxt/
+.next/
+
+# ==========================
+# Файлы операционных систем
+# ==========================
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.DS_Store
+*.swp
+*.swo
+*.tmp
+*.bak
+*~
+.sass-cache/
+
+# ==========================
+# Разное
+# ==========================
+# Файлы отладки
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Секреты и локальные переменные
+.env
+.env.local
+.env.*.local
+
+# Папки покрытия кода
+TestResults/
+[Dd]ebug/
+[Rr]elease/
