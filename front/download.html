@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Скачать игру — Game</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="./css/style.css">
+
+    <style>
+        /* ---- Герой ---- */
+        .download-hero {
+            text-align: center;
+            margin-bottom: var(--space-10);
+        }
+
+        .download-hero__title {
+            font-size: 32px;
+            margin-bottom: var(--space-4);
+        }
+
+        .download-hero__subtitle {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-muted);
+        }
+
+        /* ---- Таймер ---- */
+        .countdown-wrap {
+            text-align: center;
+            margin-bottom: var(--space-10);
+        }
+
+        .countdown-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-faint);
+            margin-bottom: var(--space-4);
+        }
+
+        .countdown {
+            display: inline-flex;
+            gap: var(--space-3);
+            align-items: flex-start;
+        }
+
+        .countdown__block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 72px;
+        }
+
+        .countdown__num {
+            font-family: var(--font-display);
+            font-size: 48px;
+            line-height: 1;
+            color: var(--accent);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-4) var(--space-5);
+            width: 100%;
+            text-align: center;
+            transition: color 0.2s;
+        }
+
+        .countdown__unit {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-faint);
+            margin-top: var(--space-2);
+        }
+
+        .countdown__sep {
+            font-family: var(--font-display);
+            font-size: 40px;
+            color: var(--text-faint);
+            margin-top: 14px;
+            user-select: none;
+        }
+
+        .countdown-released {
+            display: none;
+            text-align: center;
+            color: var(--success);
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: var(--space-10);
+        }
+
+        /* ---- Карточка скачивания ---- */
+        .download-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        .download-card__title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: var(--space-4);
+        }
+
+        .download-card__text {
+            color: var(--text-muted);
+            margin-bottom: var(--space-6);
+        }
+
+        .download-btn {
+            max-width: 280px;
+        }
+
+        /* ---- Инфо-блоки ---- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-5);
+            margin-bottom: var(--space-10);
+        }
+
+        .info-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-6);
+        }
+
+        .info-box__title {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: var(--space-3);
+            letter-spacing: 1px;
+        }
+
+        .info-box__content {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .version-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--surface-2);
+            color: var(--accent);
+            margin-bottom: var(--space-4);
+            font-size: 14px;
+        }
+
+        .system-list {
+            list-style: none;
+        }
+
+        .system-list li {
+            margin-bottom: 8px;
+        }
+
+        /* ---- Секция скриншотов ---- */
+        .screenshots-section {
+            margin-bottom: var(--space-10);
+        }
+
+        .screenshots-section__header {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: var(--space-4);
+        }
+
+        .screenshots-section__title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            color: var(--text);
+        }
+
+        .screenshots-section__hint {
+            font-size: 13px;
+            color: var(--text-faint);
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+
+        .screenshot-item:first-child {
+            grid-column: 1 / -1;
+        }
+
+        .screenshot-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .screenshot-item:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent);
+        }
+
+        .screenshot-item__media {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-faint);
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+        }
+
+        .screenshot-item__media img,
+        .screenshot-item__media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .screenshot-item__footer {
+            padding: var(--space-3) var(--space-4);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .screenshot-item__caption {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .screenshot-item__tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            background: var(--surface-2);
+            padding: 3px 8px;
+        }
+
+        @media (max-width: 600px) {
+            .screenshots-grid { grid-template-columns: 1fr; }
+            .screenshot-item:first-child { grid-column: auto; }
+            .countdown__block { min-width: 56px; }
+            .countdown__num { font-size: 34px; padding: var(--space-3); }
+        }
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="./leaderboard.html" class="navbar__logo">
+            Game<span style="color:var(--accent)">.</span>
+        </a>
+        <ul class="navbar__links">
+            <li><a href="./leaderboard.html">Лидерборд</a></li>
+            <li><a href="./profile.html">Профиль</a></li>
+            <li><a href="./download.html" class="active">Скачать</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+        </ul>
+        <div class="navbar__user">Игрок: <span id="navUsername">—</span></div>
+    </nav>
+
+    <main class="page">
+        <div class="container">
+
+            <section class="download-hero">
+                <h1 class="page__title download-hero__title">Скачать игру</h1>
+                <p class="download-hero__subtitle">
+                    Здесь будет краткое описание игры.
+                    Замени этот текст своим.
+                </p>
+            </section>
+
+            <div class="countdown-wrap" id="countdownSection">
+                <div class="countdown-label">До выхода игры</div>
+                <div class="countdown" id="countdown">
+                    <div class="countdown__block">
+                        <div class="countdown__num" id="cd-days">00</div>
+                        <div class="countdown__unit">дней</div>
+                    </div>
+                    <div class="countdown__sep">:</div>
+                    <div class="countdown__block">
+                        <div class="countdown__num" id="cd-hours">00</div>
+                        <div class="countdown__unit">часов</div>
+                    </div>
+                    <div class="countdown__sep">:</div>
+                    <div class="countdown__block">
+                        <div class="countdown__num" id="cd-mins">00</div>
+                        <div class="countdown__unit">минут</div>
+                    </div>
+                    <div class="countdown__sep">:</div>
+                    <div class="countdown__block">
+                        <div class="countdown__num" id="cd-secs">00</div>
+                        <div class="countdown__unit">секунд</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="countdown-released" id="releasedMsg">
+                🎮 Игра уже вышла! Скачивай ниже.
+            </div>
+
+            <section class="download-card">
+                <div class="version-badge">Версия 1.0.0</div>
+                <div class="download-card__title">Последняя сборка</div>
+                <div class="download-card__text">
+                    Здесь размести описание текущего билда,
+                    изменений и дополнительную информацию.
+                </div>
+                <a href="./downloads/Game.zip" class="btn btn--primary download-btn" download>Скачать игру</a>
+            </section>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="info-box__title">О проекте</div>
+                    <div class="info-box__content">Здесь будет описание проекта. Можно вставлять сколько угодно текста.</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box__title">Особенности</div>
+                    <div class="info-box__content">• Большие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Достижения</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-box__title">Системные требования</div>
+                    <div class="info-box__content">
+                        <ul class="system-list">
+                            <li>Windows 10 / 11</li>
+                            <li>4 ГБ ОЗУ</li>
+                            <li>DirectX 11</li>
+                            <li>Любой современный CPU</li>
+                            <li>500 МБ свободного места</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <section class="screenshots-section">
+                <div class="screenshots-section__header">
+                    <h2 class="screenshots-section__title">Скриншоты</h2>
+                    <span class="screenshots-section__hint">Геймплей и скрины</span>
+                </div>
+                <div class="screenshots-grid">
+                    <div class="screenshot-item">
+                        <div class="screenshot-item__media">
+                            <!--
+                                <img src="./img/screenshot-1.jpg" alt="Главное меню" loading="lazy">
+                                или gif:
+                                <img src="./img/gameplay.gif" alt="Геймплей" loading="lazy">
+                            -->
+                            <span>Главный скриншот / GIF</span>
+                        </div>
+                        <div class="screenshot-item__footer">
+                            <span class="screenshot-item__caption">Описание скриншота</span>
+                            <span class="screenshot-item__tag">Геймплей</span>
+                        </div>
+                    </div>
+                    <div class="screenshot-item">
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-2.jpg" alt="Карта" loading="lazy">--><span>Скриншот 2</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Карта</span></div>
+                    </div>
+                    <div class="screenshot-item">
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-3.jpg" alt="Интерфейс" loading="lazy">--><span>Скриншот 3</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">UI</span></div>
+                    </div>
+                    <div class="screenshot-item">
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-4.jpg" alt="Сетевая игра" loading="lazy">--><span>Скриншот 4</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Мультиплеер</span></div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        const currentUser = sessionStorage.getItem('username');
+        const navUsername = document.getElementById('navUsername');
+        if (currentUser) navUsername.textContent = currentUser;
+
+        const RELEASE = new Date('2026-07-05T00:00:00+03:00');
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function updateCountdown() {
+            const now  = new Date();
+            const diff = RELEASE - now;
+            if (diff <= 0) {
+                document.getElementById('countdownSection').style.display = 'none';
+                document.getElementById('releasedMsg').style.display = 'block';
+                return;
+            }
+            const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('cd-days').textContent  = pad(days);
+            document.getElementById('cd-hours').textContent = pad(hours);
+            document.getElementById('cd-mins').textContent  = pad(mins);
+            document.getElementById('cd-secs').textContent  = pad(secs);
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+
+</body>
+</html>

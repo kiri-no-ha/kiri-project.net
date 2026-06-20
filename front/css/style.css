@@ -81,7 +81,7 @@ body {
 img { display: block; max-width: 100%; }
 button { cursor: pointer; }
 
-/* Явно прописываем шрифт для всех форм-элементов — браузеры не наследуют его автоматически */
+/* Явно прописываем шрифт для всех форм-элементов */
 input, button, select, textarea, label {
   font-family: var(--font-body);
   color: inherit;

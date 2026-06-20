@@ -19,8 +19,6 @@ bld/
 
 # Папка с метаданными Visual Studio
 .vs/
-*.vsidx
-*.cache
 
 # Резервные копии (Visual Studio)
 _ReSharper.*/
@@ -83,3 +81,5 @@ ehthumbs_vista.db
 
 # Папки покрытия кода
 TestResults/
+[Dd]ebug/
+[Rr]elease/
