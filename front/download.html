@@ -85,11 +85,6 @@
             user-select: none;
         }
 
-        /* Когда таймер истёк */
-        .countdown--done .countdown__num {
-            color: var(--success);
-        }
-
         .countdown-released {
             display: none;
             text-align: center;
@@ -197,7 +192,6 @@
             gap: var(--space-4);
         }
 
-        /* Первый блок — широкий на всю строку */
         .screenshot-item:first-child {
             grid-column: 1 / -1;
         }
@@ -215,7 +209,6 @@
             box-shadow: 0 0 0 1px var(--accent);
         }
 
-        /* Плейсхолдер — пустое пространство под медиа */
         .screenshot-item__media {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -226,7 +219,6 @@
             color: var(--text-faint);
             font-size: 13px;
             letter-spacing: 0.5px;
-            /* Здесь будет img или gif — просто убери <span> и вставь тег */
             overflow: hidden;
         }
 
@@ -260,22 +252,10 @@
         }
 
         @media (max-width: 600px) {
-            .screenshots-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .screenshot-item:first-child {
-                grid-column: auto;
-            }
-
-            .countdown__block {
-                min-width: 56px;
-            }
-
-            .countdown__num {
-                font-size: 34px;
-                padding: var(--space-3);
-            }
+            .screenshots-grid { grid-template-columns: 1fr; }
+            .screenshot-item:first-child { grid-column: auto; }
+            .countdown__block { min-width: 56px; }
+            .countdown__num { font-size: 34px; padding: var(--space-3); }
         }
     </style>
 
@@ -286,33 +266,26 @@
         <a href="./leaderboard.html" class="navbar__logo">
             Game<span style="color:var(--accent)">.</span>
         </a>
-
         <ul class="navbar__links">
             <li><a href="./leaderboard.html">Лидерборд</a></li>
             <li><a href="./profile.html">Профиль</a></li>
             <li><a href="./download.html" class="active">Скачать</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
         </ul>
-
-        <div class="navbar__user">
-            Игрок: <span id="navUsername">—</span>
-        </div>
+        <div class="navbar__user">Игрок: <span id="navUsername">—</span></div>
     </nav>
 
     <main class="page">
         <div class="container">
 
-            <!-- Герой -->
             <section class="download-hero">
-                <h1 class="page__title download-hero__title">
-                    Скачать игру
-                </h1>
+                <h1 class="page__title download-hero__title">Скачать игру</h1>
                 <p class="download-hero__subtitle">
                     Здесь будет краткое описание игры.
                     Замени этот текст своим.
                 </p>
             </section>
 
-            <!-- Таймер обратного отсчёта -->
             <div class="countdown-wrap" id="countdownSection">
                 <div class="countdown-label">До выхода игры</div>
                 <div class="countdown" id="countdown">
@@ -338,12 +311,10 @@
                 </div>
             </div>
 
-            <!-- Сообщение после релиза -->
             <div class="countdown-released" id="releasedMsg">
                 🎮 Игра уже вышла! Скачивай ниже.
             </div>
 
-            <!-- Карточка скачивания -->
             <section class="download-card">
                 <div class="version-badge">Версия 1.0.0</div>
                 <div class="download-card__title">Последняя сборка</div>
@@ -351,30 +322,17 @@
                     Здесь размести описание текущего билда,
                     изменений и дополнительную информацию.
                 </div>
-                <a href="./downloads/Game.zip"
-                   class="btn btn--primary download-btn"
-                   download>
-                    Скачать игру
-                </a>
+                <a href="./downloads/Game.zip" class="btn btn--primary download-btn" download>Скачать игру</a>
             </section>
 
-            <!-- Инфо-блоки -->
             <div class="info-grid">
                 <div class="info-box">
                     <div class="info-box__title">О проекте</div>
-                    <div class="info-box__content">
-                        Здесь будет описание проекта.
-                        Можно вставлять сколько угодно текста.
-                    </div>
+                    <div class="info-box__content">Здесь будет описание проекта. Можно вставлять сколько угодно текста.</div>
                 </div>
                 <div class="info-box">
                     <div class="info-box__title">Особенности</div>
-                    <div class="info-box__content">
-                        • Большие карты<br>
-                        • Сетевая игра<br>
-                        • Рейтинговая система<br>
-                        • Достижения
-                    </div>
+                    <div class="info-box__content">• Большие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Достижения</div>
                 </div>
                 <div class="info-box">
                     <div class="info-box__title">Системные требования</div>
@@ -390,22 +348,17 @@
                 </div>
             </div>
 
-            <!-- Секция скриншотов и гифок -->
             <section class="screenshots-section">
                 <div class="screenshots-section__header">
                     <h2 class="screenshots-section__title">Скриншоты</h2>
                     <span class="screenshots-section__hint">Геймплей и скрины</span>
                 </div>
-
                 <div class="screenshots-grid">
-
-                    <!-- Блок 1 (широкий — главный скриншот) -->
                     <div class="screenshot-item">
                         <div class="screenshot-item__media">
                             <!--
-                                Вставь сюда тег img или video:
                                 <img src="./img/screenshot-1.jpg" alt="Главное меню" loading="lazy">
-                                или гифку:
+                                или gif:
                                 <img src="./img/gameplay.gif" alt="Геймплей" loading="lazy">
                             -->
                             <span>Главный скриншот / GIF</span>
@@ -415,49 +368,18 @@
                             <span class="screenshot-item__tag">Геймплей</span>
                         </div>
                     </div>
-
-                    <!-- Блок 2 -->
                     <div class="screenshot-item">
-                        <div class="screenshot-item__media">
-                            <!--
-                                <img src="./img/screenshot-2.jpg" alt="Карта" loading="lazy">
-                            -->
-                            <span>Скриншот 2</span>
-                        </div>
-                        <div class="screenshot-item__footer">
-                            <span class="screenshot-item__caption">Описание</span>
-                            <span class="screenshot-item__tag">Карта</span>
-                        </div>
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-2.jpg" alt="Карта" loading="lazy">--><span>Скриншот 2</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Карта</span></div>
                     </div>
-
-                    <!-- Блок 3 -->
                     <div class="screenshot-item">
-                        <div class="screenshot-item__media">
-                            <!--
-                                <img src="./img/screenshot-3.jpg" alt="Интерфейс" loading="lazy">
-                            -->
-                            <span>Скриншот 3</span>
-                        </div>
-                        <div class="screenshot-item__footer">
-                            <span class="screenshot-item__caption">Описание</span>
-                            <span class="screenshot-item__tag">UI</span>
-                        </div>
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-3.jpg" alt="Интерфейс" loading="lazy">--><span>Скриншот 3</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">UI</span></div>
                     </div>
-
-                    <!-- Блок 4 -->
                     <div class="screenshot-item">
-                        <div class="screenshot-item__media">
-                            <!--
-                                <img src="./img/screenshot-4.jpg" alt="Сетевая игра" loading="lazy">
-                            -->
-                            <span>Скриншот 4</span>
-                        </div>
-                        <div class="screenshot-item__footer">
-                            <span class="screenshot-item__caption">Описание</span>
-                            <span class="screenshot-item__tag">Мультиплеер</span>
-                        </div>
+                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-4.jpg" alt="Сетевая игра" loading="lazy">--><span>Скриншот 4</span></div>
+                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Мультиплеер</span></div>
                     </div>
-
                 </div>
             </section>
 
@@ -465,35 +387,26 @@
     </main>
 
     <script>
-        // Ник игрока в навбаре
         const currentUser = sessionStorage.getItem('username');
         const navUsername = document.getElementById('navUsername');
         if (currentUser) navUsername.textContent = currentUser;
 
-        // ---- Таймер обратного отсчёта ----
-        // Дата релиза: 25 июня 2026, 00:00 по МСК (UTC+3)
         const RELEASE = new Date('2026-06-25T00:00:00+03:00');
 
-        function pad(n) {
-            return String(n).padStart(2, '0');
-        }
+        function pad(n) { return String(n).padStart(2, '0'); }
 
         function updateCountdown() {
             const now  = new Date();
             const diff = RELEASE - now;
-
             if (diff <= 0) {
-                // Игра вышла
                 document.getElementById('countdownSection').style.display = 'none';
                 document.getElementById('releasedMsg').style.display = 'block';
                 return;
             }
-
             const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const secs  = Math.floor((diff % (1000 * 60)) / 1000);
-
             document.getElementById('cd-days').textContent  = pad(days);
             document.getElementById('cd-hours').textContent = pad(hours);
             document.getElementById('cd-mins').textContent  = pad(mins);
