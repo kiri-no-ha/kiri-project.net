@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль — Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      margin-bottom: var(--space-8);
+    }
+
+    .profile-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .profile-rank {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: var(--space-1);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+
+    .stat-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+    }
+
+    .stat-card__label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .stat-card__value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .stat-card__value--accent { color: var(--accent); }
+    .stat-card__value--success { color: var(--success); }
+    .stat-card__value--error   { color: var(--error); }
+    .stat-card__value--warning { color: var(--warning); }
+
+    .winrate-bar-wrap {
+      margin-bottom: var(--space-8);
+    }
+
+    .winrate-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .winrate-bar {
+      height: 8px;
+      background: var(--surface-2);
+      border-radius: var(--radius-full, 9999px);
+      overflow: hidden;
+    }
+
+    .winrate-bar__fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: var(--radius-full, 9999px);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 0%;
+    }
+
+    .not-found {
+      text-align: center;
+      padding: var(--space-12) 0;
+      color: var(--text-muted);
+    }
+
+    .not-found__icon {
+      font-size: 48px;
+      margin-bottom: var(--space-4);
+    }
+
+    .not-found__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: var(--space-2);
+    }
+
+    /* Скелетон для профиля */
+    .skeleton-avatar-ph {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="./leaderboard.html" class="navbar__logo">Game<span style="color:var(--accent)">.</span></a>
+    <ul class="navbar__links">
+        <li><a href="./leaderboard.html">Лидерборд</a></li>
+        <li><a href="./profile.html" class="active">Профиль</a></li>
+        <li><a href="./download.html">Скачать</a></li>
+        <li><a href="./faq.html">FAQ</a></li>
+    </ul>
+    <div class="navbar__user">Игрок: <span id="navUsername">—</span></div>
+  </nav>
+
+  <main class="page">
+    <div class="container">
+
+      <!-- Скелетон -->
+      <div id="profileSkeleton">
+        <div style="display:flex; align-items:center; gap:var(--space-5); margin-bottom:var(--space-8);">
+          <div class="skeleton skeleton-avatar-ph"></div>
+          <div>
+            <div class="skeleton skeleton-cell" style="width:160px; height:22px; margin-bottom:var(--space-2);"></div>
+            <div class="skeleton skeleton-cell" style="width:100px; height:14px;"></div>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
+          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
+          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
+          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
+        </div>
+      </div>
+
+      <!-- Профиль -->
+      <div id="profileContent" class="hidden">
+
+        <div class="profile-header">
+          <div class="profile-avatar" id="profileAvatar"></div>
+          <div>
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-rank" id="profileRank"></div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card__label">Победы</div>
+            <div class="stat-card__value stat-card__value--success" id="statWins"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Поражения</div>
+            <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Всего игр</div>
+            <div class="stat-card__value" id="statTotal"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__label">Время в игре</div>
+            <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
+          </div>
+        </div>
+
+        <div class="winrate-bar-wrap">
+          <div class="winrate-bar-label">
+            <span>Винрейт</span>
+            <span id="winrateLabel">0%</span>
+          </div>
+          <div class="winrate-bar">
+            <div class="winrate-bar__fill" id="winrateBar"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Не найден -->
+      <div id="profileNotFound" class="hidden">
+        <div class="not-found">
+          <div class="not-found__icon">👤</div>
+          <div class="not-found__title">Профиль не найден</div>
+          <p>Войди в игру, чтобы увидеть свою статистику.</p>
+          <a href="./auth.html" class="btn btn--primary" style="margin-top:var(--space-5); max-width:200px;">Войти</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="./config.js"></script>
+  <script src="./js/profile.js"></script>
+</body>
+</html>
