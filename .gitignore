@@ -12,10 +12,12 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+
 **/[Bb]in/
 **/[Oo]bj/
 **/[Ll]og/
 **/[Ll]ogs/
+
 
 # Папка с метаданными Visual Studio
 .vs/
@@ -42,6 +44,7 @@ nuget.exe
 **/node_modules/
 **/dist/
 **/build/
+
 
 # Автоматически генерируемые файлы сборки (например, Vite, Webpack)
 /dist/
