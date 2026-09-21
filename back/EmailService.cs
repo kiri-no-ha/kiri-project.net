@@ -2,6 +2,7 @@
 using MailKit.Security;
 using MimeKit;
 
+
 public class EmailService
 {
     private readonly IConfiguration _config;
