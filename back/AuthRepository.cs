@@ -8,6 +8,16 @@ public class AuthRepository
     public AuthRepository(IConfiguration config)
     {
         _connectionString = config.GetConnectionString("Default");
+
+        if (string.IsNullOrWhiteSpace(_connectionString))
+        {
+            _connectionString = "Server=127.0.0.1;Port=3306;Database=college_platform;User=root;Password=poleno36573!;CharSet=utf8mb4;";
+            Console.WriteLine("!!! ХАРДКОД АКТИВЕН. Connection string = " + _connectionString);
+        }
+        else
+        {
+            Console.WriteLine(">>> Строка подключения из appsettings: " + _connectionString);
+        }
     }
 
     // Найти пользователя по email или username
@@ -45,22 +55,30 @@ public class AuthRepository
         return affected == 1;
     }
 
-    // Получить валидный (неиспользованный, не истёкший) код
     public async Task<AccessCode?> GetValidCodeAsync(int userId, string code)
     {
         using var conn = new MySqlConnection(_connectionString);
         await conn.OpenAsync();
+
         string sql = @"
-            SELECT id, user_id, code, expires_at, used
-            FROM access_codes
-            WHERE user_id = @userId AND code = @code AND used = FALSE AND expires_at > NOW()
-            LIMIT 1";
+        SELECT id, user_id, code, expires_at, used
+        FROM access_codes
+        WHERE user_id = @userId
+          AND code = @code
+          AND used = 0
+          AND expires_at > NOW()
+        ORDER BY id DESC
+        LIMIT 1";
+
         using var cmd = new MySqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@userId", userId);
         cmd.Parameters.AddWithValue("@code", code);
+
         using var reader = await cmd.ExecuteReaderAsync();
         if (await reader.ReadAsync())
         {
+            var expiresAt = reader.GetDateTime("expires_at");
+            if (expiresAt < DateTime.Now) return null;
             return new AccessCode
             {
                 Id = reader.GetInt32("id"),

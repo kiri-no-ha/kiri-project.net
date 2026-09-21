@@ -37,7 +37,7 @@ app.MapPost("/request-code", async (RequestCodeRequest request, AuthRepository r
     if (user == null) return Results.NotFound("User not found");
 
     var code = Random.Shared.Next(100000, 999999).ToString();
-    var saved = await repo.SaveCodeAsync(user.Id, code, DateTime.UtcNow.AddMinutes(5));
+    var saved = await repo.SaveCodeAsync(user.Id, code, DateTime.Now.AddMinutes(5));
     if (!saved) return Results.StatusCode(500);
 
     await email.SendCodeAsync(user.Email, code);
