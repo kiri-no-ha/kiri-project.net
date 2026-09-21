@@ -4,9 +4,10 @@
     public string Username { get; set; } = "";
     public string Email { get; set; } = "";
 
-    //статистика
-    public int Wins { get; set; }
-    public int Losses { get; set; }
-    public int TotalGames { get; set; }
-    public int PlaytimeMinutes { get; set; }
+    // Новая статистика студента
+    public int Points { get; set; }         // баллы
+    public int Attendance { get; set; }     // посещения
+    public int Gaps { get; set; }           // пропуски
+    public int Events { get; set; }         // мероприятия
+    public int Course { get; set; }         // курс
 }

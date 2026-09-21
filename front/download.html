@@ -117,7 +117,7 @@
             max-width: 280px;
         }
 
-        /* ---- Инфо-блоки ---- */
+        
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -157,9 +157,9 @@
             list-style: none;
         }
 
-        .system-list li {
-            margin-bottom: 8px;
-        }
+            .system-list li {
+                margin-bottom: 8px;
+            }
 
         /* ---- Секция скриншотов ---- */
         .screenshots-section {
@@ -204,10 +204,10 @@
             transition: border-color var(--transition), box-shadow var(--transition);
         }
 
-        .screenshot-item:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 1px var(--accent);
-        }
+            .screenshot-item:hover {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 1px var(--accent);
+            }
 
         .screenshot-item__media {
             width: 100%;
@@ -222,12 +222,12 @@
             overflow: hidden;
         }
 
-        .screenshot-item__media img,
-        .screenshot-item__media video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+            .screenshot-item__media img,
+            .screenshot-item__media video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
         .screenshot-item__footer {
             padding: var(--space-3) var(--space-4);
@@ -252,10 +252,84 @@
         }
 
         @media (max-width: 600px) {
-            .screenshots-grid { grid-template-columns: 1fr; }
-            .screenshot-item:first-child { grid-column: auto; }
-            .countdown__block { min-width: 56px; }
-            .countdown__num { font-size: 34px; padding: var(--space-3); }
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshot-item:first-child {
+                grid-column: auto;
+            }
+
+            .countdown__block {
+                min-width: 40px;
+            }
+
+            .countdown__num {
+                font-size: 22px;
+                padding: 8px 4px;
+            }
+
+            .countdown__sep {
+                font-size: 24px;
+                margin-top: 8px;
+            }
+
+            .countdown__unit {
+                font-size: 9px;
+            }
+
+            .countdown {
+                gap: 4px;
+            }
+        }
+        /* ---- Инфо-блоки + гифка ---- */
+        .info-with-media {
+            margin-bottom: var(--space-10);
+        }
+
+        .info-with-media__left {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-5);
+        }
+
+        .info-with-media__bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-5);
+        }
+
+        .info-with-media__media {
+            display: flex;
+            align-items: stretch;
+        }
+
+            .info-with-media__media .screenshot-item {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .info-with-media__media .screenshot-item__media {
+                flex: 1;
+            }
+
+        .info-with-media__side {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-5);
+        }
+
+        /* На телефонах всё в колонку */
+        @media (max-width: 768px) {
+            .info-with-media__bottom {
+                grid-template-columns: 1fr;
+            }
+
+            .info-with-media__media {
+                order: -1; /* гифка сверху на телефонах */
+            }
+        }
         }
     </style>
 
@@ -263,14 +337,15 @@
 <body>
 
     <nav class="navbar">
-        <a href="./leaderboard.html" class="navbar__logo">
+        <a href="https://kiri-project.net/leaderboard.html" class="navbar__logo">
             Game<span style="color:var(--accent)">.</span>
         </a>
         <ul class="navbar__links">
-            <li><a href="./leaderboard.html">Лидерборд</a></li>
+            <li><a href="./leaderboard.html">Статус студента</a></li>
             <li><a href="./profile.html">Профиль</a></li>
-            <li><a href="./download.html" class="active">Скачать</a></li>
-            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="./download.html">Новости</a></li>
+            <li><a href="./seller.html">покупки</a></li>
+            <li><a href="./faq.html" class="active">FAQ</a></li>
         </ul>
         <div class="navbar__user">Игрок: <span id="navUsername">—</span></div>
     </nav>
@@ -281,108 +356,206 @@
             <section class="download-hero">
                 <h1 class="page__title download-hero__title">Скачать игру</h1>
                 <p class="download-hero__subtitle">
-                    Здесь будет краткое описание игры.
-                    Замени этот текст своим.
-                </p>
+                    Игра собранная на коленке.
+                </p><p> Онлайн файтинг на 4 игроков.</p>
+                <p></p>
             </section>
 
             <div class="countdown-wrap" id="countdownSection">
                 <div class="countdown-label">До выхода игры</div>
                 <div class="countdown" id="countdown">
                     <div class="countdown__block">
-                        <div class="countdown__num" id="cd-days">00</div>
+                        <div class="countdown__num" id="cd-days">191</div>
                         <div class="countdown__unit">дней</div>
                     </div>
                     <div class="countdown__sep">:</div>
                     <div class="countdown__block">
-                        <div class="countdown__num" id="cd-hours">00</div>
+                        <div class="countdown__num" id="cd-hours">15</div>
                         <div class="countdown__unit">часов</div>
                     </div>
                     <div class="countdown__sep">:</div>
                     <div class="countdown__block">
-                        <div class="countdown__num" id="cd-mins">00</div>
+                        <div class="countdown__num" id="cd-mins">58</div>
                         <div class="countdown__unit">минут</div>
                     </div>
                     <div class="countdown__sep">:</div>
                     <div class="countdown__block">
-                        <div class="countdown__num" id="cd-secs">00</div>
+                        <div class="countdown__num" id="cd-secs">33</div>
                         <div class="countdown__unit">секунд</div>
                     </div>
                 </div>
             </div>
 
             <div class="countdown-released" id="releasedMsg">
-                🎮 Игра уже вышла! Скачивай ниже.
+
             </div>
 
             <section class="download-card">
                 <div class="version-badge">Версия 1.0.0</div>
-                <div class="download-card__title">Последняя сборка</div>
+                <div class="download-card__title" style="text-align: center;">Мероприятия колледжа</div>
                 <div class="download-card__text">
-                    Здесь размести описание текущего билда,
-                    изменений и дополнительную информацию.
+                    <p style="text-align: center;">
+                        Мероприятия колледжа что проходили или будут проходить
+                    </p>
                 </div>
-                <a href="./downloads/Game.zip" class="btn btn--primary download-btn" download>Скачать игру</a>
-            </section>
 
-            <div class="info-grid">
-                <div class="info-box">
-                    <div class="info-box__title">О проекте</div>
-                    <div class="info-box__content">Здесь будет описание проекта. Можно вставлять сколько угодно текста.</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box__title">Особенности</div>
-                    <div class="info-box__content">• Большие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Достижения</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-box__title">Системные требования</div>
-                    <div class="info-box__content">
-                        <ul class="system-list">
-                            <li>Windows 10 / 11</li>
-                            <li>4 ГБ ОЗУ</li>
-                            <li>DirectX 11</li>
-                            <li>Любой современный CPU</li>
-                            <li>500 МБ свободного места</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <section class="screenshots-section">
-                <div class="screenshots-section__header">
-                    <h2 class="screenshots-section__title">Скриншоты</h2>
-                    <span class="screenshots-section__hint">Геймплей и скрины</span>
-                </div>
-                <div class="screenshots-grid">
-                    <div class="screenshot-item">
-                        <div class="screenshot-item__media">
-                            <!--
-                                <img src="./img/screenshot-1.jpg" alt="Главное меню" loading="lazy">
-                                или gif:
-                                <img src="./img/gameplay.gif" alt="Геймплей" loading="lazy">
-                            -->
-                            <span>Главный скриншот / GIF</span>
+
+                <div class="info-with-media">
+                    <div class="info-with-media__left">
+                        <div class="info-box">
+                            <div class="info-box__title">Об игре</div>
+                            <div class="info-box__content">Файтинг, рассчитанный на четырех игроков и четырех персонажей, каждый из которых случайно ввязался в драку вследствие попытки одного из героев станцевать лезгинку на столе. Все происходит в таверне, где культурно отдыхали магический инопланетянин под кодовым именем Иннокентий, королева змей ламия Алина, ксенокот помесь кота и жука, чья раса захватила соседнюю галактику, и лучший мужчина на свете, любимец женщин и детей, нашедший любовь на дне общества с бутылкой супер мужик <strong>«Амур»</strong>!!!!..</div>
                         </div>
-                        <div class="screenshot-item__footer">
-                            <span class="screenshot-item__caption">Описание скриншота</span>
-                            <span class="screenshot-item__tag">Геймплей</span>
+
+                        <div class="info-with-media__bottom">
+                            <div class="info-with-media__media">
+                                <div class="screenshot-item" style="height:100%;">
+                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
+                                        <img src="./Скачать игру — Game_files/tavern.gif" alt="Геймплей таверны" loading="lazy" style="display:none;">
+                                        <span style="font-size:16px; text-align:center; padding:20px;"> <br>Гифка таверны</span>
+                                    </div>
+                                    <div class="screenshot-item__footer">
+                                        <span class="screenshot-item__caption">Геймплей таверны</span>
+                                        <span class="screenshot-item__tag">GIF</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Два блока справа -->
+                            <div class="info-with-media__side">
+                                <div class="info-box">
+                                    <div class="info-box__title">Особенности</div>
+                                    <div class="info-box__content">• маленькие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Странные герои</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-box__title">Системные требования</div>
+                                    <div class="info-box__content">
+                                        <ul class="system-list">
+                                            <li>Windows 10 / 11</li>
+                                            <li>4 ГБ ОЗУ</li>
+                                            <li>DirectX 11</li>
+                                            <li>Любой современный CPU</li>
+                                            <li>500 МБ свободного места</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="screenshot-item">
-                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-2.jpg" alt="Карта" loading="lazy">--><span>Скриншот 2</span></div>
-                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Карта</span></div>
-                    </div>
-                    <div class="screenshot-item">
-                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-3.jpg" alt="Интерфейс" loading="lazy">--><span>Скриншот 3</span></div>
-                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">UI</span></div>
-                    </div>
-                    <div class="screenshot-item">
-                        <div class="screenshot-item__media"><!--<img src="./img/screenshot-4.jpg" alt="Сетевая игра" loading="lazy">--><span>Скриншот 4</span></div>
-                        <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Мультиплеер</span></div>
+                </div>
+                <div class="info-with-media">
+                    <div class="info-with-media__left">
+                        <div class="info-box">
+                            <div class="info-box__title">Об игре</div>
+                            <div class="info-box__content">Файтинг, рассчитанный на четырех игроков и четырех персонажей, каждый из которых случайно ввязался в драку вследствие попытки одного из героев станцевать лезгинку на столе. Все происходит в таверне, где культурно отдыхали магический инопланетянин под кодовым именем Иннокентий, королева змей ламия Алина, ксенокот помесь кота и жука, чья раса захватила соседнюю галактику, и лучший мужчина на свете, любимец женщин и детей, нашедший любовь на дне общества с бутылкой супер мужик <strong>«Амур»</strong>!!!!..</div>
+                        </div>
+
+                        <div class="info-with-media__bottom">
+                            <div class="info-with-media__media">
+                                <div class="screenshot-item" style="height:100%;">
+                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
+                                        <img src="./Скачать игру — Game_files/tavern.gif" alt="Геймплей таверны" loading="lazy" style="display:none;">
+                                        <span style="font-size:16px; text-align:center; padding:20px;"> <br>Гифка таверны</span>
+                                    </div>
+                                    <div class="screenshot-item__footer">
+                                        <span class="screenshot-item__caption">Геймплей таверны</span>
+                                        <span class="screenshot-item__tag">GIF</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Два блока справа -->
+                            <div class="info-with-media__side">
+                                <div class="info-box">
+                                    <div class="info-box__title">Особенности</div>
+                                    <div class="info-box__content">• маленькие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Странные герои</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-box__title">Системные требования</div>
+                                    <div class="info-box__content">
+                                        <ul class="system-list">
+                                            <li>Windows 10 / 11</li>
+                                            <li>4 ГБ ОЗУ</li>
+                                            <li>DirectX 11</li>
+                                            <li>Любой современный CPU</li>
+                                            <li>500 МБ свободного места</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
+                <div class="info-with-media">
+                    <div class="info-with-media__left">
+                        <div class="info-box">
+                            <div class="info-box__title">Об игре</div>
+                            <div class="info-box__content">Файтинг, рассчитанный на четырех игроков и четырех персонажей, каждый из которых случайно ввязался в драку вследствие попытки одного из героев станцевать лезгинку на столе. Все происходит в таверне, где культурно отдыхали магический инопланетянин под кодовым именем Иннокентий, королева змей ламия Алина, ксенокот помесь кота и жука, чья раса захватила соседнюю галактику, и лучший мужчина на свете, любимец женщин и детей, нашедший любовь на дне общества с бутылкой супер мужик <strong>«Амур»</strong>!!!!..</div>
+                        </div>
 
+                        <div class="info-with-media__bottom">
+                            <div class="info-with-media__media">
+                                <div class="screenshot-item" style="height:100%;">
+                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
+                                        <img src="./Скачать игру — Game_files/tavern.gif" alt="Геймплей таверны" loading="lazy" style="display:none;">
+                                        <span style="font-size:16px; text-align:center; padding:20px;"> <br>Гифка таверны</span>
+                                    </div>
+                                    <div class="screenshot-item__footer">
+                                        <span class="screenshot-item__caption">Геймплей таверны</span>
+                                        <span class="screenshot-item__tag">GIF</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Два блока справа -->
+                            <div class="info-with-media__side">
+                                <div class="info-box">
+                                    <div class="info-box__title">Особенности</div>
+                                    <div class="info-box__content">• маленькие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Странные герои</div>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-box__title">Системные требования</div>
+                                    <div class="info-box__content">
+                                        <ul class="system-list">
+                                            <li>Windows 10 / 11</li>
+                                            <li>4 ГБ ОЗУ</li>
+                                            <li>DirectX 11</li>
+                                            <li>Любой современный CPU</li>
+                                            <li>500 МБ свободного места</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="screenshots-section">
+                    <div class="screenshots-section__header">
+                        <h2 class="screenshots-section__title">Скриншоты</h2>
+                        <span class="screenshots-section__hint">Геймплей и скрины</span>
+                    </div>
+                    <div class="screenshots-grid">
+                        <div class="screenshot-item">
+                            <div class="screenshot-item__media"><span>Скриншот 1</span></div>
+                            <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Геймплей</span></div>
+                        </div>
+                        <div class="screenshot-item">
+                            <div class="screenshot-item__media"><span>Скриншот 2</span></div>
+                            <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Карта</span></div>
+                        </div>
+                        <div class="screenshot-item">
+                            <div class="screenshot-item__media"><span>Скриншот 3</span></div>
+                            <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">UI</span></div>
+                        </div>
+                        <div class="screenshot-item">
+                            <div class="screenshot-item__media"><span>Скриншот 4</span></div>
+                            <div class="screenshot-item__footer"><span class="screenshot-item__caption">Описание</span><span class="screenshot-item__tag">Мультиплеер</span></div>
+                        </div>
+                    </div>
+
+                </section>
+</div>
         </div>
     </main>
 
@@ -391,26 +564,26 @@
         const navUsername = document.getElementById('navUsername');
         if (currentUser) navUsername.textContent = currentUser;
 
-        const RELEASE = new Date('2026-07-05T00:00:00+03:00');
+        const RELEASE = new Date('2027-04-01T00:00:00+03:00');
 
         function pad(n) { return String(n).padStart(2, '0'); }
 
         function updateCountdown() {
-            const now  = new Date();
+            const now = new Date();
             const diff = RELEASE - now;
             if (diff <= 0) {
                 document.getElementById('countdownSection').style.display = 'none';
                 document.getElementById('releasedMsg').style.display = 'block';
                 return;
             }
-            const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const secs  = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById('cd-days').textContent  = pad(days);
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('cd-days').textContent = pad(days);
             document.getElementById('cd-hours').textContent = pad(hours);
-            document.getElementById('cd-mins').textContent  = pad(mins);
-            document.getElementById('cd-secs').textContent  = pad(secs);
+            document.getElementById('cd-mins').textContent = pad(mins);
+            document.getElementById('cd-secs').textContent = pad(secs);
         }
 
         updateCountdown();

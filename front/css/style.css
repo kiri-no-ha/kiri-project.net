@@ -95,54 +95,130 @@ h1, h2, h3, h4, h5, h6 {
    Навигация
 ======================== */
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-4) var(--space-8);
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* ← разрешаем перенос строк */
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-8);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .navbar__logo {
-  font-size: 18px;
-  font-weight: 700;
-  font-family: var(--font-display);
-  color: var(--text);
-  text-decoration: none;
-  letter-spacing: -0.3px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    flex-shrink: 0; /* лого не сжимается */
 }
 
 .navbar__links {
-  display: flex;
-  gap: var(--space-4);
-  list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* ← ссылки тоже могут переноситься */
+    gap: var(--space-2) var(--space-4);
+    list-style: none;
+    align-items: center;
 }
 
-.navbar__links a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 14px;
-  padding: var(--space-2) var(--space-3);
-  transition: color var(--transition), background var(--transition);
-}
+    .navbar__links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 14px;
+        padding: var(--space-2) var(--space-3);
+        transition: color var(--transition), background var(--transition);
+        white-space: nowrap; /* ссылка не рвётся по словам */
+    }
 
-.navbar__links a:hover,
-.navbar__links a.active {
-  color: var(--text);
-  background: var(--surface-2);
-}
+        .navbar__links a:hover,
+        .navbar__links a.active {
+            color: var(--text);
+            background: var(--surface-2);
+        }
 
 .navbar__user {
-  font-size: 14px;
-  color: var(--text-muted);
+    font-size: 14px;
+    color: var(--text-muted);
+    flex-shrink: 0; /* юзер не сжимается */
+    white-space: nowrap;
 }
 
-.navbar__user span {
-  color: var(--accent);
-  font-weight: 500;
+    .navbar__user span {
+        color: var(--accent);
+        font-weight: 500;
+    }
+
+/* ========================
+   Адаптив навбара
+======================== */
+
+/* Планшет — плотнее отступы */
+@media (max-width: 900px) {
+    .navbar {
+        padding: var(--space-3) var(--space-5);
+        gap: var(--space-2);
+    }
+
+    .navbar__links {
+        gap: var(--space-1) var(--space-3);
+    }
+
+        .navbar__links a {
+            padding: var(--space-2);
+            font-size: 13px;
+        }
+}
+
+/* Телефон — ссылки уезжают на вторую строку, юзер справа */
+@media (max-width: 600px) {
+    .navbar {
+        padding: var(--space-3) var(--space-4);
+        gap: var(--space-2);
+    }
+
+    .navbar__logo {
+        font-size: 16px;
+    }
+
+    .navbar__links {
+        order: 3; /* ссылки — под лого и юзером */
+        width: 100%; /* на всю ширину */
+        justify-content: flex-start;
+        gap: var(--space-1);
+        padding-top: var(--space-2);
+        border-top: 1px solid var(--border);
+    }
+
+        .navbar__links a {
+            font-size: 13px;
+            padding: var(--space-1) var(--space-2);
+        }
+
+    .navbar__user {
+        font-size: 12px;
+        margin-left: auto; /* прижимает к правому краю */
+    }
+}
+
+/* Очень узкие (старые телефоны) — ещё компактнее */
+@media (max-width: 380px) {
+    .navbar__logo {
+        font-size: 15px;
+    }
+
+    .navbar__links a {
+        font-size: 12px;
+        padding: var(--space-1);
+    }
+
+    .navbar__user {
+        font-size: 11px;
+    }
 }
 
 /* ========================

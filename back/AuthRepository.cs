@@ -72,22 +72,18 @@ public class AuthRepository
         }
         return null;
     }
-    
+
     //массив топов
     public async Task<List<User>> GetTop100FromDbAsync()
     {
         using var conn = new MySqlConnection(_connectionString);
         await conn.OpenAsync();
 
-        // Запрос вытаскивает все новые игровые поля, отсортированные по победам
-        string sql = "SELECT id, " +
-                     " username, " +
-                     " email, " +
-                     " wins, " +
-                     " losses, " +
-                     " total_games, " +
-                     " playtime_minutes " +
-                     " FROM users ORDER BY wins DESC LIMIT 100";
+        string sql = @"
+        SELECT id, username, email, points, attendance, gaps, events, course
+        FROM users
+        ORDER BY points DESC
+        LIMIT 100";
 
         using var cmd = new MySqlCommand(sql, conn);
         var topPlayers = new List<User>();
@@ -100,10 +96,11 @@ public class AuthRepository
                 Id = reader.GetInt32("id"),
                 Username = reader.GetString("username"),
                 Email = reader.GetString("email"),
-                Wins = reader.GetInt32("wins"),
-                Losses = reader.GetInt32("losses"),
-                TotalGames = reader.GetInt32("total_games"),
-                PlaytimeMinutes = reader.GetInt32("playtime_minutes")
+                Points = reader.GetInt32("points"),
+                Attendance = reader.GetInt32("attendance"),
+                Gaps = reader.GetInt32("gaps"),
+                Events = reader.GetInt32("events"),
+                Course = reader.GetInt32("course")
             });
         }
 
