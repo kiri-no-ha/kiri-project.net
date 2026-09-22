@@ -203,6 +203,12 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 12px;
         margin-left: auto; /* прижимает к правому краю */
     }
+    .navbar__right {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        flex-shrink: 0;
+    }
 }
 
 /* Очень узкие (старые телефоны) — ещё компактнее */
@@ -479,3 +485,270 @@ tbody tr.is-me td:first-child {
     padding: var(--space-6);
   }
 }
+/* ========================
+   Корзина в навбаре
+======================== */
+.cart {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.cart__toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition), background var(--transition), border-color var(--transition);
+}
+
+    .cart__toggle:hover {
+        color: var(--text);
+        background: var(--surface-2);
+        border-color: var(--accent);
+    }
+
+.cart__badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    display: none;
+}
+
+    .cart__badge.is-visible {
+        display: block;
+    }
+
+/* ========================
+   Выпадающее окно корзины
+======================== */
+.cart__popup {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: var(--space-5);
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+    .cart__popup.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+/* Промо-плашка */
+.cart__promo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    margin-bottom: var(--space-4);
+}
+
+    .cart__promo p {
+        font-size: 13px;
+        color: var(--text);
+        line-height: 1.4;
+        margin: 0;
+    }
+
+.cart__promo-icon {
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+/* Список товаров */
+.cart__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-height: 320px;
+    overflow-y: auto;
+    margin-bottom: var(--space-4);
+    padding-right: var(--space-2);
+}
+
+.cart__item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+}
+
+    .cart__item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+.cart__item-img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+}
+
+.cart__item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.cart__item-name {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.cart__item-qty {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.cart__item-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.cart__item-remove {
+    background: none;
+    border: none;
+    color: var(--text-faint);
+    cursor: pointer;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition);
+}
+
+    .cart__item-remove:hover {
+        color: var(--error);
+    }
+
+/* Пустая корзина */
+.cart__empty {
+    text-align: center;
+    padding: var(--space-6) 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Футер корзины */
+.cart__footer {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-4);
+}
+
+.cart__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: var(--space-4);
+}
+
+/* Скрытие пустого/заполненного состояния */
+.cart__empty.is-hidden,
+.cart__footer.is-hidden,
+.cart__promo.is-hidden {
+    display: none;
+}
+
+/* ========================
+   Адаптив корзины
+======================== */
+@media (max-width: 600px) {
+    .cart__popup {
+        width: calc(100vw - 32px);
+        right: -8px;
+    }
+}
+/* ========================
+   Toast (уведомления)
+======================== */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 14px 24px;
+    background: var(--surface);
+    border: 1px solid var(--success);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.toast--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.balance-badge {
+    /* Включаем флекс и выравниваем строго по центру */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Убираем высоту, если она была, пусть блок строится от текста */
+    height: auto;
+    /* Мягкие контролируемые отступы */
+    padding: 2px 10px;
+    font-size: 14px;
+    color: var(--text-muted);
+    /* Нижний отступ делаем минимальным, чтобы не толкать соседние элементы */
+    margin-bottom: 0;
+}
+
+    /* Сбрасываем возможные косяки отображения жирного текста */
+    .balance-badge strong {
+        display: inline;
+        margin: 0 4px; /* Четкий отступ слева и справа от числа */
+        padding: 0;
+        line-height: 1;
+    }
+

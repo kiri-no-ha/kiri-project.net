@@ -285,8 +285,48 @@
             <li><a href="./seller.html">покупки</a></li>
             <li><a href="./faq.html" class="active">FAQ</a></li>
         </ul>
+
+        <!-- Корзина -->
+
+        <div class="cart" id="cart">
+            <button class="cart__toggle" id="cartToggle" aria-label="Корзина">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+                <span class="cart__badge" id="cartBadge">0</span>
+            </button>
+            <div class="balance-badge">
+                баланс: <strong id="balanceValue">1000</strong> ₽
+            </div>
+            <!-- Выпадающая корзина -->
+            <div class="cart__popup" id="cartPopup">
+                <div class="cart__promo" id="cartPromo">
+                    <svg class="cart__promo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    <p>Поздравляем! У вас бесплатная доставка</p>
+                </div>
+
+                <div class="cart__items" id="cartItems">
+                </div>
+
+                <div class="cart__empty" id="cartEmpty">
+                    Корзина пуста
+                </div>
+
+                <div class="cart__footer" id="cartFooter">
+                    <div class="cart__total">
+                        <span>Итого</span>
+                        <span id="cartTotal">0 ₽</span>
+                    </div>
+                    <button class="btn btn--primary" id="cartCheckout">Перейти к оформлению</button>
+                </div>
+            </div>
+        </div>
         <div class="navbar__user">
-            Игрок: <span id="navUsername">—</span>
+            user: <span id="navUsername">—</span>
         </div>
     </nav>
 
@@ -294,6 +334,7 @@
         <div class="container">
 
             <h1 class="page__title">мерч</h1>
+
             <p class="page__subtitle">Очень крутые одежи здесь</p>
 
             <!-- Поиск -->
@@ -301,7 +342,7 @@
                 <input type="search"
                        class="faq-search"
                        id="faqSearch"
-                       placeholder="Поиск по вопросам..."
+                       placeholder="Поиск ..."
                        autocomplete="off">
             </div>
 
@@ -371,7 +412,10 @@
                 <div class="product-card__sidebar">
                     <img src="../img/eee1.jpg" />
                     <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn">Купить</button>
+                    <button class="product-card__buy-btn"
+                            onclick="addToCart({id:1, name:'Футболка обычная', price:20, image:'../img/eee1.jpg'})">
+                        Купить
+                    </button>
                 </div>
             </div>
 
@@ -409,7 +453,7 @@
                                 </svg>
                             </button>
                             <div class="faq-item__body">
-                                Хлопок 90%, полеэстер 6%, лайка 4%. 
+                                Хлопок 90%, полеэстер 6%, лайка 4%.
                             </div>
                         </div>
 
@@ -420,7 +464,10 @@
                 <div class="product-card__sidebar">
                     <img src="../img/eee4.jpg" />
                     <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn">Купить</button>
+                    <button class="product-card__buy-btn"
+                            onclick="addToCart({id:2, name:'Футболка не обычная', price:20, image:'../img/eee4.jpg'})">
+                        Купить
+                    </button>
                 </div>
             </div>
 
@@ -428,7 +475,7 @@
             <div class="product-card">
                 <!-- Левая часть: категория с FAQ -->
                 <div class="faq-category" data-category>
-                    <div class="faq-category__title">свитшо</div>
+                    <div class="faq-category__title">свитшот</div>
                     <div class="faq-list">
 
                         <div class="faq-item" data-question="вопрос об игре">
@@ -468,57 +515,60 @@
                 <div class="product-card__sidebar">
                     <img src="../img/eee3.jpg" />
                     <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn">Купить</button>
+                    <button class="product-card__buy-btn"
+                            onclick="addToCart({id:3, name:'Свитшот женский', price:20, image:'../img/eee3.jpg'})">
+                        Купить
+                    </button>
                 </div>
             </div>
-            </div>
-              <!-- Категория 1 -->
-            <div class="product-card">
-                <!-- Левая часть: категория с FAQ -->
-                <div class="faq-category" data-category>
-                    <div class="faq-category__title">Крутой киприч</div>
-                    <div class="faq-list">
+        <!-- Категория 1 -->
+        <div class="product-card">
+            <!-- Левая часть: категория с FAQ -->
+            <div class="faq-category" data-category>
+                <div class="faq-category__title">Крутой киприч</div>
+                <div class="faq-list">
 
-                        <div class="faq-item" data-question="Крутой киприч">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__label">Описание</span>
-                                <span class="faq-item__text">
-                                    Крутой кирпич
-                                </span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Крутой кипри!
-                            </div>
+                    <div class="faq-item" data-question="Крутой киприч">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span class="faq-item__label">Описание</span>
+                            <span class="faq-item__text">
+                                Крутой кирпич
+                            </span>
+                            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                        <div class="faq-item__body">
+                            Крутой кипри!
                         </div>
-
-                        <div class="faq-item" data-question="ещё один вопрос">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__text">Состав материала</span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Крутой киприч.
-                            </div>
-                        </div>
-
                     </div>
-                </div>
 
-                <!-- Правая часть: сайдбар товара -->
-                <div class="product-card__sidebar">
-                    <img src="../img/eee2.jpg" />
-                    <span class="product-card__price">9999 ₽</span>
-                    <button class="product-card__buy-btn">Купить</button>
+                    <div class="faq-item" data-question="ещё один вопрос">
+                        <button class="faq-item__question" aria-expanded="false">
+                            <span class="faq-item__text">Состав материала</span>
+                            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </button>
+                        <div class="faq-item__body">
+                            Крутой киприч.
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
+            <!-- Правая часть: сайдбар товара -->
+            <div class="product-card__sidebar">
+                <img src="../img/eee2.jpg" />
+                <span class="product-card__price">9999 ₽</span>
+                <button class="product-card__buy-btn"
+                        onclick="addToCart({id:4, name:'Крутой кирпич', price:9999, image:'../img/eee2.jpg'})">
+                    Купить
+                </button>
+            </div>
         </div>
     </main>
 
@@ -550,7 +600,7 @@
 
         // Поиск
         const searchInput = document.getElementById('faqSearch');
-        const emptyState  = document.getElementById('faqEmpty');
+        const emptyState = document.getElementById('faqEmpty');
 
         searchInput.addEventListener('input', () => {
             const query = searchInput.value.trim().toLowerCase();
@@ -577,6 +627,6 @@
             emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
         });
     </script>
-
+    <script src="./js/cart.js"></script>
 </body>
 </html>
