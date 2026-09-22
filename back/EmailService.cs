@@ -14,12 +14,12 @@ public class EmailService
     public async Task SendCodeAsync(string toEmail, string code)
     {
         // === Читаем настройки SMTP ===
-        var host = _config["Smtp:Host"];
-        var portStr = _config["Smtp:Port"];
-        var user = _config["Smtp:Username"];
-        var pass = _config["Smtp:Password"];
+        var host = _config["Smtp:Host"] ?? "smtp.gmail.com";
+        var portStr = _config["Smtp:Port"] ?? "587";
+        var user = _config["Smtp:Username"] ?? "zoplyashka282769@gmail.com";
+        var pass = _config["Smtp:Password"] ?? "rkstilzzrwnfeaxf";
 
-        // === Логируем, что реально пришло из конфига ===
+        // === Логируем, что реально пришло ===
         Console.WriteLine(">>> ========================================");
         Console.WriteLine($">>> SMTP Host: {host ?? "<NULL>"}");
         Console.WriteLine($">>> SMTP Port: {portStr ?? "<NULL>"}");
@@ -28,7 +28,7 @@ public class EmailService
         Console.WriteLine($">>> КОД ДЛЯ {toEmail}: {code}");
         Console.WriteLine(">>> ========================================");
 
-        // === Если SMTP не настроен — просто оставляем код в консоли ===
+        // === Если SMTP не настроен просто оставляем код в консоли ===
         if (string.IsNullOrWhiteSpace(host) ||
             string.IsNullOrWhiteSpace(user) ||
             string.IsNullOrWhiteSpace(pass))
@@ -42,7 +42,7 @@ public class EmailService
 
         // === Собираем письмо ===
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress("Game Auth", user));
+        message.From.Add(new MailboxAddress("ЦАРИЦИНО Auth", user));
         message.To.Add(MailboxAddress.Parse(toEmail));
         message.Subject = "Your access code";
         message.Body = new TextPart("plain")

@@ -33,15 +33,30 @@ app.UseHttpsRedirection();
 // --- Endpoints ---
 app.MapPost("/request-code", async (RequestCodeRequest request, AuthRepository repo, EmailService email) =>
 {
-    var user = await repo.GetUserByLoginAsync(request.Login);
-    if (user == null) return Results.NotFound("User not found");
+    try
+    {
+        Console.WriteLine($">>> /request-code: login={request.Login}");
 
-    var code = Random.Shared.Next(100000, 999999).ToString();
-    var saved = await repo.SaveCodeAsync(user.Id, code, DateTime.Now.AddMinutes(5));
-    if (!saved) return Results.StatusCode(500);
+        var user = await repo.GetUserByLoginAsync(request.Login);
+        Console.WriteLine($">>> user: {(user == null ? "NULL" : $"id={user.Id}, email={user.Email}")}");
+        if (user == null) return Results.NotFound("User not found");
 
-    await email.SendCodeAsync(user.Email, code);
-    return Results.Ok("Code sent");
+        var code = Random.Shared.Next(100000, 999999).ToString();
+        Console.WriteLine($">>> code: {code}");
+
+        var saved = await repo.SaveCodeAsync(user.Id, code, DateTime.Now.AddMinutes(5));
+        Console.WriteLine($">>> saved: {saved}");
+        if (!saved) return Results.StatusCode(500);
+
+        await email.SendCodeAsync(user.Email, code);
+        Console.WriteLine($">>> email done");
+        return Results.Ok("Code sent");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(">>> /request-code CRASH: " + ex);
+        return Results.StatusCode(500);
+    }
 });
 
 app.MapPost("/verify-code", async (VerifyCodeRequest request, AuthRepository repo) =>
