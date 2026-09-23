@@ -155,6 +155,7 @@ public class AuthRepository
 
         return count > 0;
     }
+
     public async Task<bool> CreateUserAsync(string username, string email)
     {
         using var conn = new MySqlConnection(_connectionString);
@@ -173,5 +174,143 @@ public class AuthRepository
         int affected = await cmd.ExecuteNonQueryAsync();
 
         return affected == 1;
+    }
+    //manage
+    public async Task<bool> StaffAuth(string Username, string PasswordHash)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+        string sql = @"
+            SELECT COUNT(*) 
+            FROM Staff 
+            WHERE Username = @Username OR Password = @PasswordHash";
+        using var cmd = new MySqlCommand(sql);
+        cmd.Parameters.AddWithValue($"username", Username);
+        cmd.Parameters.AddWithValue("PasswordHash", PasswordHash);
+
+        var result = await cmd.ExecuteScalarAsync();
+        int count = result != null ? Convert.ToInt32(result) : 0;
+
+        return count > 0;
+    }
+    public async Task<bool> CreateEventAsync(Event newEvent)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"
+        INSERT INTO events (title, description, event_date, location, category, points_reward, capacity) 
+        VALUES (@Title, @Description, @EventDate, @Location, @Category, @PointsReward, @Capacity)";
+
+        using var cmd = new MySqlCommand(sql, conn);
+
+        cmd.Parameters.AddWithValue("@Title", newEvent.Title);
+        cmd.Parameters.AddWithValue("@Description", newEvent.Description);
+        cmd.Parameters.AddWithValue("@EventDate", newEvent.EventDate);
+        cmd.Parameters.AddWithValue("@Location", newEvent.Location);
+        cmd.Parameters.AddWithValue("@Category", newEvent.Category);
+        cmd.Parameters.AddWithValue("@PointsReward", newEvent.PointsReward);
+        cmd.Parameters.AddWithValue("@Capacity", newEvent.Capacity);
+
+        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+        return rowsAffected > 0;
+    }
+    public async Task<bool> DeleteEventAsync(int eventId)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = "DELETE FROM events WHERE id = @Id";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@Id", eventId);
+
+        // Если строка удалилась, rowsAffected будет равен 1, и метод вернет true
+        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+
+        return rowsAffected > 0;
+    }
+    // Вход для сотрудников (простой SHA-256)
+    public async Task<Staff?> StaffLoginAsync(string username, string password)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"
+        SELECT id, username, password_hash, full_name, role, created_at
+        FROM staff
+        WHERE username = @u AND password_hash = SHA2(@p, 256)";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@u", username);
+        cmd.Parameters.AddWithValue("@p", password);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return new Staff
+            {
+                Id = reader.GetInt32("id"),
+                Username = reader.GetString("username"),
+                PasswordHash = reader.GetString("password_hash"),
+                FullName = reader.IsDBNull("full_name") ? "" : reader.GetString("full_name"),
+                Role = reader.GetString("role"),
+                // Email = reader.IsDBNull("email") ? "" : reader.GetString("email"),
+                CreatedAt = reader.GetDateTime("created_at")
+            };
+        }
+        return null;
+    }
+
+    // Список мерча
+    public async Task<List<object>> GetMerchItemsAsync()
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"SELECT id, title, description, price_points, price_rub, image_url, stock, category
+                   FROM merch_items ORDER BY id DESC";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        var list = new List<object>();
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            list.Add(new
+            {
+                id = reader.GetInt32("id"),
+                title = reader.GetString("title"),
+                description = reader.IsDBNull("description") ? "" : reader.GetString("description"),
+                pricePoints = reader.GetInt32("price_points"),
+                priceRub = reader.IsDBNull("price_rub") ? 0 : reader.GetInt32("price_rub"),
+                imageUrl = reader.IsDBNull("image_url") ? "" : reader.GetString("image_url"),
+                stock = reader.GetInt32("stock"),
+                category = reader.IsDBNull("category") ? "" : reader.GetString("category")
+            });
+        }
+        return list;
+    }
+
+    // Добавить мерч
+    public async Task<bool> CreateMerchItemAsync(string title, string description, int pricePoints, int stock, string category, string imageUrl)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"
+        INSERT INTO merch_items (title, description, price_points, price_rub, image_url, stock, category)
+        VALUES (@t, @d, @pp, 0, @img, @s, @c)";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@t", title);
+        cmd.Parameters.AddWithValue("@d", description);
+        cmd.Parameters.AddWithValue("@pp", pricePoints);
+        cmd.Parameters.AddWithValue("@img", imageUrl);
+        cmd.Parameters.AddWithValue("@s", stock);
+        cmd.Parameters.AddWithValue("@c", category);
+
+        return await cmd.ExecuteNonQueryAsync() > 0;
     }
 }

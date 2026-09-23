@@ -17,7 +17,7 @@ public class EmailService
         var host = _config["Smtp:Host"] ?? "smtp.gmail.com";
         var portStr = _config["Smtp:Port"] ?? "587";
         var user = _config["Smtp:Username"] ?? "zoplyashka282769@gmail.com";
-        var pass = _config["Smtp:Password"] ?? "rkstilzzrwnfeaxf";
+        var pass = _config["Smtp:Password"] ?? "вафля";
 
         // === Логируем, что реально пришло ===
         Console.WriteLine(">>> ========================================");

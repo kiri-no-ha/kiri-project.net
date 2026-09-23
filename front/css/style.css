@@ -19,20 +19,20 @@
    Переменные (токены)
 ======================== */
 :root {
-  --bg:          #111827;
-  --surface:     #1f2937;
-  --surface-2:   #374151;
+  --bg:          #271811;
+  --surface:     #37281f;
+  --surface-2:   #4a3427; /* Изменено с сине-серого #374151 на тёплый коричневый */
   --border:      rgba(255, 255, 255, 0.08);
 
   --text:        #f9fafb;
   --text-muted:  #9ca3af;
   --text-faint:  #6b7280;
 
-  --accent:      #2563eb;
-  --accent-hover:#1d4ed8;
+  --accent:      #ebe825;
+  --accent-hover:#c4c11e; /* Изменено с оливкового на тёмно-золотой */
   --success:     #4ade80;
   --error:       #f87171;
-  --warning:     #fbbf24;
+  --warning:     hsl(43, 96%, 56%);
 
   --radius-sm:   0px;
   --radius-md:   0px;
@@ -269,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn--primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg); /* Изменено с #fff на тёмный цвет для читаемости на жёлтом */
 }
 .btn--primary:hover:not(:disabled) {
   background: var(--accent-hover);
@@ -321,7 +321,7 @@ h1, h2, h3, h4, h5, h6 {
 .form-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 0 0 3px rgba(235, 232, 37, 0.2); /* Изменено с синего на жёлтый */
 }
 
 /* ========================
@@ -394,7 +394,7 @@ tbody td {
 }
 
 tbody tr.is-me td {
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(235, 232, 37, 0.08); /* Изменено с синего на жёлтый */
 }
 
 tbody tr.is-me td:first-child {
@@ -524,7 +524,7 @@ tbody tr.is-me td:first-child {
     height: 18px;
     padding: 0 5px;
     background: var(--accent);
-    color: #fff;
+    color: var(--bg); /* Изменено с #fff на тёмный цвет для читаемости */
     font-family: var(--font-body);
     font-size: 11px;
     font-weight: 700;
@@ -569,8 +569,8 @@ tbody tr.is-me td:first-child {
     align-items: center;
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
-    background: rgba(37, 99, 235, 0.1);
-    border: 1px solid rgba(37, 99, 235, 0.3);
+    background: rgba(235, 232, 37, 0.1); /* Изменено с синего на жёлтый */
+    border: 1px solid rgba(235, 232, 37, 0.3); /* Изменено с синего на жёлтый */
     margin-bottom: var(--space-4);
 }
 
@@ -751,4 +751,60 @@ tbody tr.is-me td:first-child {
         padding: 0;
         line-height: 1;
     }
+/* ========================
+   Прогресс-бары (Профиль)
+======================== */
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
 
+.progress-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.progress-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+}
+
+.progress-item__value {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: var(--surface-2); /* Тёмно-коричневый фон */
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar__fill {
+    height: 100%;
+    background: var(--accent); /* Жёлтый цвет Царицыно */
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Варианты цветов для разных показателей */
+.progress-bar__fill--success {
+    background: var(--success); /* Зелёный для посещаемости */
+}
+
+.progress-bar__fill--warning {
+    background: var(--warning); /* Оранжевый для мероприятий */
+}
+
+.progress-bar__fill--error {
+    background: var(--error); /* Красный для пропусков */
+}

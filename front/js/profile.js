@@ -35,10 +35,10 @@ function renderProfile(player, rank) {
     : `# ${rank} в рейтинге`;
   document.getElementById('profileRank').textContent = rankText;
 
-  document.getElementById('statWins').textContent   = player.wins;
-  document.getElementById('statLosses').textContent = player.losses;
-  document.getElementById('statTotal').textContent  = player.totalGames;
-  document.getElementById('statTime').textContent   = formatTime(player.playtimeMinutes);
+    document.getElementById('statWins').textContent = player.attendance;
+    document.getElementById('statLosses').textContent = player.gaps;
+    document.getElementById('statTotal').textContent = player.events;
+    document.getElementById('statTime').textContent = player.points;
 
   // Винрейт
   const winrate = player.totalGames > 0

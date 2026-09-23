@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ — Царицыно</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: var(--space-6);
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .merch-row {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+            .merch-row img {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border: 1px solid var(--border);
+            }
+
+        .merch-row__info {
+            flex: 1;
+        }
+
+        .merch-row__title {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .merch-row__meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="./admin.html" class="navbar__logo">Царицыно<span style="color:var(--accent)">.</span></a>
+        <ul class="navbar__links">
+            <li><a href="./admin.html" class="active">Панель админа</a></li>
+            <li><a href="./leaderboard.html">Сайт</a></li>
+        </ul>
+        <div class="navbar__user">админ: <span id="navUsername">—</span></div>
+    </nav>
+
+    <main class="page">
+        <div class="container">
+            <h1 class="page__title">Управление мерчем</h1>
+            <p class="page__subtitle">Добавление товаров в магазин</p>
+
+            <div class="admin-grid">
+                <!-- Форма добавления -->
+                <div class="card">
+                    <h2 class="card__title">Добавить товар</h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Название</label>
+                        <input class="form-input" id="mTitle" placeholder="Футболка">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Описание</label>
+                        <input class="form-input" id="mDesc" placeholder="Короткое описание">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Цена (жетоны)</label>
+                        <input class="form-input" type="number" id="mPrice" value="100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Остаток (шт.)</label>
+                        <input class="form-input" type="number" id="mStock" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Категория</label>
+                        <input class="form-input" id="mCategory" placeholder="Одежда">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Путь к изображению</label>
+                        <input class="form-input" id="mImage" placeholder="../img/eee1.jpg">
+                    </div>
+
+                    <button class="btn btn--primary" id="addBtn">Добавить</button>
+                    <div class="msg" id="addMsg"></div>
+                </div>
+
+                <!-- Список товаров -->
+                <div class="card">
+                    <h2 class="card__title">Существующий мерч</h2>
+                    <div id="merchList">Загрузка...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./config.js"></script>
+    <script>
+// Проверка роли
+const role = sessionStorage.getItem('staffRole');
+if (role !== 'admin' && role !== 'organizer') {
+    window.location.href = './staff-login.html';
+}
+document.getElementById('navUsername').textContent = sessionStorage.getItem('staffName') || '—';
+
+const addBtn = document.getElementById('addBtn');
+const addMsg = document.getElementById('addMsg');
+
+async function loadMerch() {
+    const list = document.getElementById('merchList');
+    try {
+        const res = await fetch(`${CONFIG.API}/merch`);
+        const items = await res.json();
+        if (!items.length) {
+            list.innerHTML = '<p class="text-muted">Товаров пока нет</p>';
+            return;
+        }
+        list.innerHTML = items.map(m => `
+            <div class="merch-row">
+                <img src="${m.imageUrl || 'https://placehold.co/60x60/37281f/ebe825?text=?'}" alt="">
+                <div class="merch-row__info">
+                    <div class="merch-row__title">${escapeHtml(m.title)}</div>
+                    <div class="merch-row__meta">${m.pricePoints} жет. · ${m.stock} шт. · ${escapeHtml(m.category || '')}</div>
+                </div>
+            </div>
+        `).join('');
+    } catch {
+        list.innerHTML = '<p class="text-error">Ошибка загрузки</p>';
+    }
+}
+
+async function addMerch() {
+    const title = document.getElementById('mTitle').value.trim();
+    const description = document.getElementById('mDesc').value.trim();
+    const pricePoints = parseInt(document.getElementById('mPrice').value) || 0;
+    const stock = parseInt(document.getElementById('mStock').value) || 0;
+    const category = document.getElementById('mCategory').value.trim();
+    const imageUrl = document.getElementById('mImage').value.trim();
+
+    if (!title) {
+        addMsg.textContent = 'Введите название';
+        addMsg.className = 'msg msg--error';
+        return;
+    }
+
+    addBtn.disabled = true;
+
+    try {
+        const res = await fetch(`${CONFIG.API}/merch`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description, pricePoints, stock, category, imageUrl })
+        });
+
+        if (!res.ok) {
+            addMsg.textContent = 'Ошибка сохранения';
+            addMsg.className = 'msg msg--error';
+            return;
+        }
+
+        addMsg.textContent = '✓ Товар добавлен';
+        addMsg.className = 'msg msg--success';
+
+        document.getElementById('mTitle').value = '';
+        document.getElementById('mDesc').value = '';
+        document.getElementById('mImage').value = '';
+
+        loadMerch();
+    } catch {
+        addMsg.textContent = 'Сервер недоступен';
+        addMsg.className = 'msg msg--error';
+    } finally {
+        addBtn.disabled = false;
+    }
+}
+
+function escapeHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+addBtn.addEventListener('click', addMerch);
+loadMerch();
+    </script>
+</body>
+</html>

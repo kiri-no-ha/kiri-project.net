@@ -1,3 +1,4 @@
+using MailKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity.Data;
 using MimeKit;
@@ -98,7 +99,23 @@ app.MapGet("/leaderboard", () =>
 {
     return Results.Ok(LeaderboardCacheService.TopPlayers);
 });
+app.MapPost("/staff-login", async (StaffLoginRequest req, AuthRepository repo) =>
+{
+    var staff = await repo.StaffLoginAsync(req.Username, req.Password);
+    if (staff == null) return Results.Unauthorized();
+    return Results.Ok(new { staff.Username, staff.FullName, staff.Role });
+});
 
+app.MapGet("/merch", async (AuthRepository repo) =>
+    Results.Ok(await repo.GetMerchItemsAsync()));
+
+app.MapPost("/merch", async (MerchRequest req, AuthRepository repo) =>
+{
+    var ok = await repo.CreateMerchItemAsync(
+        req.Title, req.Description, req.PricePoints,
+        req.Stock, req.Category, req.ImageUrl);
+    return ok ? Results.Ok(new { ok = true }) : Results.StatusCode(500);
+});
 app.Run();
 
 
@@ -106,3 +123,5 @@ app.Run();
 public record RequestCodeRequest(string Login);
 public record VerifyCodeRequest(string Login, string Code);
 public record RegisterRequest(string Username, string Email);
+public record StaffLoginRequest(string Username, string Password);
+public record MerchRequest(string Title, string Description, int PricePoints, int Stock, string Category, string ImageUrl);

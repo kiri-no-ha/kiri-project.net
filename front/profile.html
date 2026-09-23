@@ -134,7 +134,7 @@
 <body>
 
   <nav class="navbar">
-    <a href="./leaderboard.html" class="navbar__logo">Game<span style="color:var(--accent)">.</span></a>
+    <a href="./leaderboard.html" class="navbar__logo">Царицино<span style="color:var(--accent)">.</span></a>
     <ul class="navbar__links">
         <li><a href="./leaderboard.html">Статус студента</a></li>
         <li><a href="./profile.html">Профиль</a></li>
@@ -142,7 +142,7 @@
         <li><a href="./seller.html">покупки</a></li>
         <li><a href="./faq.html" class="active">FAQ</a></li>
     </ul>
-    <div class="navbar__user">Игрок: <span id="navUsername">—</span></div>
+    <div class="navbar__user">пользователь: <span id="navUsername">—</span></div>
   </nav>
 
   <main class="page">
@@ -168,43 +168,110 @@
       <!-- Профиль -->
       <div id="profileContent" class="hidden">
 
-        <div class="profile-header">
-          <div class="profile-avatar" id="profileAvatar"></div>
-          <div>
-            <div class="profile-name" id="profileName"></div>
-            <div class="profile-rank" id="profileRank"></div>
+          <div class="profile-header">
+              <div class="profile-avatar" id="profileAvatar"></div>
+              <div>
+                  <div class="profile-name" id="profileName"></div>
+                  <div class="profile-rank" id="profileRank"></div>
+              </div>
           </div>
-        </div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-card__label">Победы</div>
-            <div class="stat-card__value stat-card__value--success" id="statWins"></div>
+          <div class="stats-grid">
+              <div class="stat-card">
+                  <div class="stat-card__label">Посещения</div>
+                  <div class="stat-card__value stat-card__value--success" id="statWins"></div>
+              </div>
+              <div class="stat-card">
+                  <div class="stat-card__label">Пропуски</div>
+                  <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
+              </div>
+              <div class="stat-card">
+                  <div class="stat-card__label">Всего занятий</div>
+                  <div class="stat-card__value" id="statTotal"></div>
+              </div>
+              <div class="stat-card">
+                  <div class="stat-card__label">Успеваемость</div>
+                  <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
+              </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-card__label">Поражения</div>
-            <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card__label">Всего игр</div>
-            <div class="stat-card__value" id="statTotal"></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card__label">Время в игре</div>
-            <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
-          </div>
-        </div>
 
-        <div class="winrate-bar-wrap">
-          <div class="winrate-bar-label">
-            <span>Винрейт</span>
-            <span id="winrateLabel">0%</span>
+          <div class="winrate-bar-wrap">
+              <div class="winrate-bar-label">
+                  <span>Винрейт</span>
+                  <span id="winrateLabel">0%</span>
+              </div>
+              <div class="winrate-bar">
+                  <div class="winrate-bar__fill" id="winrateBar"></div>
+              </div>
           </div>
-          <div class="winrate-bar">
-            <div class="winrate-bar__fill" id="winrateBar"></div>
-          </div>
-        </div>
 
+          <div class="card">
+              <h2 class="card__title">Статистика студента</h2>
+
+              <div class="profile-stats">
+
+                  <!-- 1. Прогресс по баллам (Цель: 500 баллов) -->
+                  <div class="progress-item">
+                      <div class="progress-item__header">
+                          <span>Баллы</span>
+                          <span class="progress-item__value">@Model.Points / 500</span>
+                      </div>
+                      <div class="progress-bar">
+                          @{
+                          // Вычисляем процент, но не даём ему превысить 100%
+                          var pointsPercent = Math.Min(Model.Points * 100 / 500, 100);
+                          }
+                          <div class="progress-bar__fill" style="width: @pointsPercent%"></div>
+                      </div>
+                  </div>
+
+                  <!-- 2. Прогресс по посещаемости -->
+                  <div class="progress-item">
+                      <div class="progress-item__header">
+                          <span>Посещаемость</span>
+                          <span class="progress-item__value">@Model.Attendance / @(Model.Attendance + Model.Gaps)</span>
+                      </div>
+                      <div class="progress-bar">
+                          @{
+                          var totalClasses = Model.Attendance + Model.Gaps;
+                          // Защита от деления на ноль, если студент ещё не был ни на одном занятии
+                          var attendancePercent = totalClasses > 0 ? (Model.Attendance * 100 / totalClasses) : 0;
+                          }
+                          <div class="progress-bar__fill progress-bar__fill--success" style="width: @attendancePercent%"></div>
+                      </div>
+                  </div>
+
+                  <!-- 3. Прогресс по мероприятиям (Цель: 10 мероприятий) -->
+                  <div class="progress-item">
+                      <div class="progress-item__header">
+                          <span>Мероприятия</span>
+                          <span class="progress-item__value">@Model.Events / 10</span>
+                      </div>
+                      <div class="progress-bar">
+                          @{
+                          var eventsPercent = Math.Min(Model.Events * 100 / 10, 100);
+                          }
+                          <div class="progress-bar__fill progress-bar__fill--warning" style="width: @eventsPercent%"></div>
+                      </div>
+                  </div>
+
+                  <!-- 4. Прогресс по пропускам (Обратный прогресс: чем меньше, тем лучше) -->
+                  <div class="progress-item">
+                      <div class="progress-item__header">
+                          <span>Пропуски</span>
+                          <span class="progress-item__value">@Model.Gaps</span>
+                      </div>
+                      <div class="progress-bar">
+                          @{
+                          // Предположим, что 20 пропусков — это критический максимум
+                          var gapsPercent = Math.Min(Model.Gaps * 100 / 20, 100);
+                          }
+                          <div class="progress-bar__fill progress-bar__fill--error" style="width: @gapsPercent%"></div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
       </div>
 
       <!-- Не найден -->

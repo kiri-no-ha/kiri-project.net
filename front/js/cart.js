@@ -123,7 +123,7 @@ function checkout() {
 
     // списываем
     setBalance(balance - total);
-
+    updateBalanceUI();
     // сохраняем покупки (для страницы «Мои покупки»)
     const purchases = JSON.parse(localStorage.getItem(PURCHASES_KEY) || '[]');
     cart.forEach(item => {
