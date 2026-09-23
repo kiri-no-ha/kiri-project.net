@@ -200,7 +200,7 @@ public class AuthRepository
 
         string sql = @"
         INSERT INTO events (title, description, event_date, location, category, points_reward, capacity) 
-        VALUES (@Title, @Description, @EventDate, @Location, @Category, @PointsReward, @Capacity)";
+        VALUES (@Title, @Description, @EventDate, @Location, @Category, @PointsReward, @Capacit, @ImageUrl)";
 
         using var cmd = new MySqlCommand(sql, conn);
 
@@ -211,6 +211,7 @@ public class AuthRepository
         cmd.Parameters.AddWithValue("@Category", newEvent.Category);
         cmd.Parameters.AddWithValue("@PointsReward", newEvent.PointsReward);
         cmd.Parameters.AddWithValue("@Capacity", newEvent.Capacity);
+        cmd.Parameters.AddWithValue("@ImageUrl", newEvent.ImageUrl ?? "");
 
         int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
@@ -230,6 +231,37 @@ public class AuthRepository
         int rowsAffected = await cmd.ExecuteNonQueryAsync();
 
         return rowsAffected > 0;
+    }
+    public async Task<List<Event>> GetEventsAsync()
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"SELECT id, title, description, event_date, location, category, 
+                          points_reward, capacity, image_url, created_at
+                   FROM events ORDER BY event_date DESC";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        var list = new List<Event>();
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            list.Add(new Event
+            {
+                Id = reader.GetInt32("id"),
+                Title = reader.GetString("title"),
+                Description = reader.IsDBNull("description") ? "" : reader.GetString("description"),
+                EventDate = reader.GetDateTime("event_date"),
+                Location = reader.IsDBNull("location") ? "" : reader.GetString("location"),
+                Category = reader.IsDBNull("category") ? "" : reader.GetString("category"),
+                PointsReward = reader.GetInt32("points_reward"),
+                Capacity = reader.GetInt32("capacity"),
+                ImageUrl = reader.IsDBNull("image_url") ? "" : reader.GetString("image_url"),  // ←
+                CreatedAt = reader.GetDateTime("created_at")
+            });
+        }
+        return list;
     }
     // Вход для сотрудников (простой SHA-256)
     public async Task<Staff?> StaffLoginAsync(string username, string password)

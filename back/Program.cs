@@ -116,6 +116,20 @@ app.MapPost("/merch", async (MerchRequest req, AuthRepository repo) =>
         req.Stock, req.Category, req.ImageUrl);
     return ok ? Results.Ok(new { ok = true }) : Results.StatusCode(500);
 });
+app.MapGet("/events", async (AuthRepository repo) =>
+    Results.Ok(await repo.GetEventsAsync()));
+
+app.MapPost("/events", async (Event e, AuthRepository repo) =>
+{
+    var ok = await repo.CreateEventAsync(e);
+    return ok ? Results.Ok(new { ok = true }) : Results.StatusCode(500);
+});
+
+app.MapDelete("/events/{id}", async (int id, AuthRepository repo) =>
+{
+    var ok = await repo.DeleteEventAsync(id);
+    return ok ? Results.Ok(new { ok = true }) : Results.NotFound();
+});
 app.Run();
 
 

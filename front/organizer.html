@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Организатор — Царицыно</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: var(--space-6);
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .event-row {
+            display: grid;
+            grid-template-columns: 60px 1fr auto;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+
+            .event-row:last-child {
+                border-bottom: none;
+            }
+
+        .event-row__title {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .event-row__meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="./organizer.html" class="navbar__logo">Царицыно<span style="color:var(--accent)">.</span></a>
+        <ul class="navbar__links">
+            <li><a href="./organizer.html" class="active">Мои мероприятия</a></li>
+            <li><a href="./leaderboard.html">Сайт</a></li>
+        </ul>
+        <div class="navbar__user">организатор: <span id="navUsername">—</span></div>
+    </nav>
+
+    <main class="page">
+        <div class="container">
+            <h1 class="page__title">Мои мероприятия</h1>
+            <p class="page__subtitle">Создание и управление мероприятиями</p>
+
+            <div class="admin-grid">
+                <!-- Форма -->
+                <div class="card">
+                    <h2 class="card__title">Создать мероприятие</h2>
+
+                    <div class="form-group">
+                        <label class="form-label">Название</label>
+                        <input class="form-input" id="eTitle" placeholder="Хакатон 01:17">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Описание</label>
+                        <input class="form-input" id="eDesc" placeholder="Короткое описание">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Дата</label>
+                        <input class="form-input" type="date" id="eDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Место</label>
+                        <input class="form-input" id="eLocation" placeholder="Корпус А, ауд. 204">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Категория</label>
+                        <input class="form-input" id="eCategory" placeholder="Мастер-класс">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Опыт (награда)</label>
+                        <input class="form-input" type="number" id="ePoints" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Количество мест</label>
+                        <input class="form-input" type="number" id="eCapacity" value="20">
+                    </div>
+
+                    <button class="btn btn--primary" id="addBtn">Создать</button>
+                    <div class="msg" id="addMsg"></div>
+                </div>
+
+                <!-- Список -->
+                <div class="card">
+                    <h2 class="card__title">Существующие мероприятия</h2>
+                    <div id="eventsList">Загрузка...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./config.js"></script>
+    <script>
+        // Проверка роли
+        const role = sessionStorage.getItem('staffRole');
+        if (role !== 'organizer' && role !== 'admin') {
+            window.location.href = './staff-login.html';
+        }
+        document.getElementById('navUsername').textContent = sessionStorage.getItem('staffName') || '—';
+
+        const addBtn = document.getElementById('addBtn');
+        const addMsg = document.getElementById('addMsg');
+
+        function escapeHtml(s) {
+            return String(s || '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        async function loadEvents() {
+            const list = document.getElementById('eventsList');
+            try {
+                const res = await fetch(`${CONFIG.API}/events`);
+                const items = await res.json();
+
+                if (!items.length) {
+                    list.innerHTML = '<p class="text-muted">Мероприятий пока нет</p>';
+                    return;
+                }
+
+                list.innerHTML = items.map(e => `
+                <div class="event-row">
+                    <div>
+                        <div class="event-row__title">${escapeHtml(e.title)}</div>
+                        <div class="event-row__meta">
+                            📅 ${formatDate(e.eventDate)} · 📍 ${escapeHtml(e.location || '—')}
+                            · +${e.pointsReward} опыта · мест: ${e.capacity}
+                        </div>
+                    </div>
+                    <button class="btn btn--ghost" style="max-width:120px;"
+                            onclick="deleteEvent(${e.id})">Удалить</button>
+                </div>
+            `).join('');
+            } catch {
+                list.innerHTML = '<p class="text-error">Ошибка загрузки</p>';
+            }
+        }
+
+        async function addEvent() {
+            const title = document.getElementById('eTitle').value.trim();
+            const description = document.getElementById('eDesc').value.trim();
+            const eventDate = document.getElementById('eDate').value;
+            const location = document.getElementById('eLocation').value.trim();
+            const category = document.getElementById('eCategory').value.trim();
+            const pointsReward = parseInt(document.getElementById('ePoints').value) || 0;
+            const capacity = parseInt(document.getElementById('eCapacity').value) || 0;
+
+            if (!title || !eventDate) {
+                addMsg.textContent = 'Заполните название и дату';
+                addMsg.className = 'msg msg--error';
+                return;
+            }
+
+            addBtn.disabled = true;
+
+            try {
+                const res = await fetch(`${CONFIG.API}/events`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title, description, eventDate, location, category, pointsReward, capacity
+                    })
+                });
+
+                if (!res.ok) {
+                    addMsg.textContent = 'Ошибка сохранения';
+                    addMsg.className = 'msg msg--error';
+                    return;
+                }
+
+                addMsg.textContent = '✓ Мероприятие создано';
+                addMsg.className = 'msg msg--success';
+
+                document.getElementById('eTitle').value = '';
+                document.getElementById('eDesc').value = '';
+                document.getElementById('eDate').value = '';
+
+                loadEvents();
+            } catch {
+                addMsg.textContent = 'Сервер недоступен';
+                addMsg.className = 'msg msg--error';
+            } finally {
+                addBtn.disabled = false;
+            }
+        }
+
+        async function deleteEvent(id) {
+            if (!confirm('Удалить мероприятие?')) return;
+            try {
+                await fetch(`${CONFIG.API}/events/${id}`, { method: 'DELETE' });
+                loadEvents();
+            } catch {
+                alert('Ошибка удаления');
+            }
+        }
+
+        addBtn.addEventListener('click', addEvent);
+        loadEvents();
+    </script>
+</body>
+</html>

@@ -149,67 +149,68 @@
                 padding-top: 0;
             }
         }
-        /* Контейнер всей карточки товара */
+        /* ========================
+   Магазин мерча — сетка карточек
+======================== */
+        .merch-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-5);
+            margin-top: var(--space-6);
+            justify-content: center;
+        }
+
         .product-card {
             display: flex;
-            gap: 24px;
-            background: #37411;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 800px;
-            margin: 20px auto;
-            border-color: #007acc;
-        }
-            .product-card .faq-category {
-                flex: 1;
-            }
-
-        .product-card__sidebar {
-            display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 16px; /* Расстояние между картинкой и кнопкой */
-            width: 200px; /* Фиксированная ширина боковой панели */
-            flex-shrink: 0;
+            gap: var(--space-3);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: var(--space-4);
+            border-radius: 0 !important;
+            max-width: none;
+            margin: 0;
+            flex: 0 0 240px;
+            max-width: 240px;
         }
 
-        /* Стили картинки */
-        .product-card__image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        /* Стили кнопки */
-        .product-card__buy-btn {
-            width: 100%;
-            padding: 12px 20px;
-            background-color: #007acc; 
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-
-        }
-
-            .product-card__buy-btn:hover {
-                background-color: #005999;
-            }
-
-        /* Адаптивность: на мобильных экранах картинка и кнопка встанут вниз */
-        @media (max-width: 600px) {
-            .product-card {
-                flex-direction: column;
-            }
-
-            .product-card__sidebar {
+            .product-card img {
                 width: 100%;
-                order: -1; /* По желанию: вынесет картинку наверх на мобильных */
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                background: var(--surface-2);
+                border: 1px solid var(--border);
             }
+
+        .product-card__title {
+            font-family: var(--font-display);
+            font-size: 16px;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .product-card__desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .product-card__price {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .product-card__stock {
+            font-size: 12px;
+            color: var(--text-faint);
+            margin-bottom: var(--space-2);
+        }
+
+        .product-card .btn {
+            margin-top: auto;
+        }
         }
         .faq-item_question {
             align-items: flex-start;
@@ -331,244 +332,8 @@
     </nav>
 
     <main class="page">
-        <div class="container">
-
-            <h1 class="page__title">мерч</h1>
-
-            <p class="page__subtitle">Очень крутые одежи здесь</p>
-
-            <!-- Поиск -->
-            <div class="faq-search-wrap">
-                <input type="search"
-                       class="faq-search"
-                       id="faqSearch"
-                       placeholder="Поиск ..."
-                       autocomplete="off">
-            </div>
-
-            <!-- Пустой стейт -->
-            <div class="faq-empty" id="faqEmpty">
-                <div class="faq-empty__icon">🔍</div>
-                <div class="faq-empty__text">Ничего не найдено. Попробуй другой запрос.</div>
-            </div>
-
-            <!--
-    ================================================================
-    КАК ДОБАВЛЯТЬ ВОПРОСЫ:
-
-    Скопируй блок .faq-category с нужным количеством .faq-item.
-    В data-question= пиши текст вопроса (для поиска).
-    В .faq-item__question → <span> — видимый текст вопроса.
-    В .faq-item__body — текст ответа.
-
-    Чтобы сделать ещё одну категорию — скопируй весь .faq-category
-    и поменяй заголовок .faq-category__title.
-    ================================================================
-    -->
-            <!-- Категория 1 -->
-            <div class="product-card">
-                <!-- Левая часть: категория с FAQ -->
-                <div class="faq-category" data-category>
-                    <div class="faq-category__title">футболка обычная</div>
-                    <div class="faq-list">
-
-                        <div class="faq-item" data-question="">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__label">Описание</span>
-                                <span class="faq-item__text">
-                                    ссовершенно необычная, классная
-                                    и невероятно невообразмая
-                                    одежа для богатейших мира
-                                    сего сколь эпитетов не трать
-                                    она не перестанет быть лучшей
-                                </span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                обычная футболка.
-                            </div>
-                        </div>
-
-                        <div class="faq-item" data-question="ещё один вопрос">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__text">Состав материала</span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Хлопок 90%, полеэстер 6%, лайка 4%.
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Правая часть: сайдбар товара -->
-                <div class="product-card__sidebar">
-                    <img src="../img/eee1.jpg" />
-                    <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn"
-                            onclick="addToCart({id:1, name:'Футболка обычная', price:20, image:'../img/eee1.jpg'})">
-                        Купить
-                    </button>
-                </div>
-            </div>
-
-
-            <!-- Категория 1 -->
-            <div class="product-card">
-                <div class="faq-category" data-category>
-                    <div class="faq-category__title">футболка не обычная</div>
-                    <div class="faq-list">
-
-                        <div class="faq-item" data-question="вопрос">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__label">Описание</span>
-                                <span class="faq-item__text">
-                                    обычная футболка совершенно
-                                    полность. обычная ничем
-                                    не выделяющаяся футболка
-                                </span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Базовая черная футболка из плотного не стопроцентного хлопка идеальная основа для любого повседневного образа. Свободный прямой крой, аккуратный круглый вырез и мягкий дышащий материал обеспечивают максимальный комфорт на весь день
-                            </div>
-                        </div>
-
-                        <div class="faq-item" data-question="ещё один вопрос">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__text">Состав материала</span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Хлопок 90%, полеэстер 6%, лайка 4%.
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Правая часть: сайдбар товара -->
-                <div class="product-card__sidebar">
-                    <img src="../img/eee4.jpg" />
-                    <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn"
-                            onclick="addToCart({id:2, name:'Футболка не обычная', price:20, image:'../img/eee4.jpg'})">
-                        Купить
-                    </button>
-                </div>
-            </div>
-
-            <!-- Категория 1 -->
-            <div class="product-card">
-                <!-- Левая часть: категория с FAQ -->
-                <div class="faq-category" data-category>
-                    <div class="faq-category__title">свитшот</div>
-                    <div class="faq-list">
-
-                        <div class="faq-item" data-question="вопрос об игре">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__label">Описание</span>
-                                <span class="faq-item__text">
-                                    Свитшот женский
-                                </span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                <strong>Особенности</strong>
-                                выполнен из премиального турецкого футера, который известен высоким качеством, мягкостью и комфортом. Крой оверсайз придает модели расслабленный и модный вид, который отлично сочетается с различными стилями. Сочетая в себе комфорт и стиль, свитшот легко комбинируется с джинсами, брюками или юбками. Мягкая ткань обеспечивает приятные ощущения при носке, а свободный силуэт не сковывает движения, что особенно важно в повседневной жизни.
-                            </div>
-                        </div>
-
-                        <div class="faq-item" data-question="ещё один вопрос">
-                            <button class="faq-item__question" aria-expanded="false">
-                                <span class="faq-item__text">Состав материала</span>
-                                <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <line x1="12" y1="5" x2="12" y2="19" />
-                                    <line x1="5" y1="12" x2="19" y2="12" />
-                                </svg>
-                            </button>
-                            <div class="faq-item__body">
-                                Хлопок 80% ПЭ 20%
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Правая часть: сайдбар товара -->
-                <div class="product-card__sidebar">
-                    <img src="../img/eee3.jpg" />
-                    <span class="product-card__price">20 ₽</span>
-                    <button class="product-card__buy-btn"
-                            onclick="addToCart({id:3, name:'Свитшот женский', price:20, image:'../img/eee3.jpg'})">
-                        Купить
-                    </button>
-                </div>
-            </div>
-        <!-- Категория 1 -->
-        <div class="product-card">
-            <!-- Левая часть: категория с FAQ -->
-            <div class="faq-category" data-category>
-                <div class="faq-category__title">Крутой киприч</div>
-                <div class="faq-list">
-
-                    <div class="faq-item" data-question="Крутой киприч">
-                        <button class="faq-item__question" aria-expanded="false">
-                            <span class="faq-item__label">Описание</span>
-                            <span class="faq-item__text">
-                                Крутой кирпич
-                            </span>
-                            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <line x1="12" y1="5" x2="12" y2="19" />
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                        </button>
-                        <div class="faq-item__body">
-                            Крутой кипри!
-                        </div>
-                    </div>
-
-                    <div class="faq-item" data-question="ещё один вопрос">
-                        <button class="faq-item__question" aria-expanded="false">
-                            <span class="faq-item__text">Состав материала</span>
-                            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <line x1="12" y1="5" x2="12" y2="19" />
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                        </button>
-                        <div class="faq-item__body">
-                            Крутой киприч.
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Правая часть: сайдбар товара -->
-            <div class="product-card__sidebar">
-                <img src="../img/eee2.jpg" />
-                <span class="product-card__price">9999 ₽</span>
-                <button class="product-card__buy-btn"
-                        onclick="addToCart({id:4, name:'Крутой кирпич', price:9999, image:'../img/eee2.jpg'})">
-                    Купить
-                </button>
-            </div>
+        <div id="merchGrid" class="merch-grid">
+            <p class="text-muted">Загрузка...</p>
         </div>
     </main>
 
@@ -578,55 +343,83 @@
         const navUsername = document.getElementById('navUsername');
         if (currentUser) navUsername.textContent = currentUser;
 
-        // Аккордеон
-        document.querySelectorAll('.faq-item__question').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.closest('.faq-item');
-                const isOpen = item.classList.contains('is-open');
+        // ========================
+        // Отрисовка мерча из БД
+        // ========================
+        async function loadMerchShop() {
+            const grid = document.getElementById('merchGrid');
+            if (!grid) return;
 
-                // Закрыть все в той же категории
-                item.closest('.faq-list').querySelectorAll('.faq-item').forEach(el => {
-                    el.classList.remove('is-open');
-                    el.querySelector('.faq-item__question').setAttribute('aria-expanded', 'false');
-                });
+            try {
+                const res = await fetch(`${CONFIG.API}/merch`);
+                const items = await res.json();
 
-                // Открыть текущий, если был закрыт
-                if (!isOpen) {
-                    item.classList.add('is-open');
-                    btn.setAttribute('aria-expanded', 'true');
+                if (!items.length) {
+                    grid.innerHTML = '<p class="text-muted">Товаров пока нет</p>';
+                    return;
                 }
-            });
-        });
 
-        // Поиск
-        const searchInput = document.getElementById('faqSearch');
-        const emptyState = document.getElementById('faqEmpty');
+                grid.innerHTML = items.map(m => `
+                <div class="product-card">
+                    <img src="${m.imageUrl || 'https://placehold.co/300x300/37281f/ebe825?text=?'}"
+                         alt="${escapeHtml(m.title)}">
+                    <h3 class="product-card__title">${escapeHtml(m.title)}</h3>
+                    <p class="product-card__desc">${escapeHtml(m.description || '')}</p>
+                    <div class="product-card__price">${m.pricePoints} жетонов</div>
+                    <div class="product-card__stock">Осталось: ${m.stock} шт.</div>
+                    <button class="btn btn--primary"
+                            onclick="addToCart({
+                                id: ${m.id},
+                                name: '${escapeHtml(m.title).replace(/'/g, "\\'")}',
+                                price: ${m.pricePoints},
+                                image: '${m.imageUrl || ''}'
+                            })">
+                        Купить
+                    </button>
+                </div>
+            `).join('');
+            } catch (err) {
+                grid.innerHTML = '<p class="text-error">Ошибка загрузки</p>';
+                console.error(err);
+            }
+        }
 
-        searchInput.addEventListener('input', () => {
-            const query = searchInput.value.trim().toLowerCase();
-            let visibleCount = 0;
+        // ========================
+        // XSS-защита
+        // ========================
+        function escapeHtml(s) {
+            return String(s || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
 
-            document.querySelectorAll('.faq-item').forEach(item => {
-                const text = (item.dataset.question + ' ' +
-                    item.querySelector('.faq-item__question span').textContent +
-                    ' ' + item.querySelector('.faq-item__body').textContent
-                ).toLowerCase();
+        // ========================
+        // Поиск по мерчу
+        // ========================
+        document.addEventListener('DOMContentLoaded', () => {
+            const search = document.getElementById('faqSearch');
+            if (search) {
+                search.addEventListener('input', (e) => {
+                    const q = e.target.value.trim().toLowerCase();
+                    let visible = 0;
 
-                const match = !query || text.includes(query);
-                item.style.display = match ? '' : 'none';
-                if (match) visibleCount++;
-            });
+                    document.querySelectorAll('.product-card').forEach(card => {
+                        const match = !q || card.textContent.toLowerCase().includes(q);
+                        card.style.display = match ? '' : 'none';
+                        if (match) visible++;
+                    });
 
-            // Скрыть пустые категории
-            document.querySelectorAll('[data-category]').forEach(cat => {
-                const hasVisible = [...cat.querySelectorAll('.faq-item')]
-                    .some(el => el.style.display !== 'none');
-                cat.style.display = hasVisible ? '' : 'none';
-            });
+                    const empty = document.getElementById('faqEmpty');
+                    if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+                });
+            }
 
-            emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+            loadMerchShop();
         });
     </script>
+    <script src="./config.js"></script>
     <script src="./js/cart.js"></script>
 </body>
 </html>
