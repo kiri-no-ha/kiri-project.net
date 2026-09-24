@@ -25,3 +25,28 @@
 | Хранение на клиенте | localStorage, sessionStorage |
 
 ## Структура
+├── back/ # Backend (.NET 8)
+│ ├── Controllers/
+│ ├── Models/
+│ ├── Repositories/
+│ └── Services/
+├── front/ # Frontend
+│ ├── css/
+│ ├── js/
+│ ├── img/
+│ └── *.html
+└── db/ # Дамп базы данных
+
+## Запуск
+
+### Требования
+- .NET 8 SDK
+- MySQL 8.0
+- Современный браузер
+
+### Backend
+
+```bash
+cd back
+dotnet restore
+dotnet run
