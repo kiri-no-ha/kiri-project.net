@@ -146,145 +146,90 @@
   </nav>
 
   <main class="page">
-    <div class="container">
-
-      <!-- Скелетон -->
-      <div id="profileSkeleton">
-        <div style="display:flex; align-items:center; gap:var(--space-5); margin-bottom:var(--space-8);">
-          <div class="skeleton skeleton-avatar-ph"></div>
-          <div>
-            <div class="skeleton skeleton-cell" style="width:160px; height:22px; margin-bottom:var(--space-2);"></div>
-            <div class="skeleton skeleton-cell" style="width:100px; height:14px;"></div>
-          </div>
+<div id="profileContent" class="hidden">
+    <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar"></div>
+        <div>
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-rank" id="profileRank"></div>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
-          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
-          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
-          <div class="stat-card"><div class="skeleton skeleton-cell" style="height:48px;"></div></div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card__label">Посещения</div>
+            <div class="stat-card__value stat-card__value--success" id="statWins"></div>
         </div>
-      </div>
-
-      <!-- Профиль -->
-      <div id="profileContent" class="hidden">
-
-          <div class="profile-header">
-              <div class="profile-avatar" id="profileAvatar"></div>
-              <div>
-                  <div class="profile-name" id="profileName"></div>
-                  <div class="profile-rank" id="profileRank"></div>
-              </div>
-          </div>
-
-          <div class="stats-grid">
-              <div class="stat-card">
-                  <div class="stat-card__label">Посещения</div>
-                  <div class="stat-card__value stat-card__value--success" id="statWins"></div>
-              </div>
-              <div class="stat-card">
-                  <div class="stat-card__label">Пропуски</div>
-                  <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
-              </div>
-              <div class="stat-card">
-                  <div class="stat-card__label">Всего занятий</div>
-                  <div class="stat-card__value" id="statTotal"></div>
-              </div>
-              <div class="stat-card">
-                  <div class="stat-card__label">Успеваемость</div>
-                  <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
-              </div>
-          </div>
-
-          <div class="winrate-bar-wrap">
-              <div class="winrate-bar-label">
-                  <span>Винрейт</span>
-                  <span id="winrateLabel">0%</span>
-              </div>
-              <div class="winrate-bar">
-                  <div class="winrate-bar__fill" id="winrateBar"></div>
-              </div>
-          </div>
-
-          <div class="card">
-              <h2 class="card__title">Статистика студента</h2>
-
-              <div class="profile-stats">
-
-                  <!-- 1. Прогресс по баллам (Цель: 500 баллов) -->
-                  <div class="progress-item">
-                      <div class="progress-item__header">
-                          <span>Баллы</span>
-                          <span class="progress-item__value">@Model.Points / 500</span>
-                      </div>
-                      <div class="progress-bar">
-                          @{
-                          // Вычисляем процент, но не даём ему превысить 100%
-                          var pointsPercent = Math.Min(Model.Points * 100 / 500, 100);
-                          }
-                          <div class="progress-bar__fill" style="width: @pointsPercent%"></div>
-                      </div>
-                  </div>
-
-                  <!-- 2. Прогресс по посещаемости -->
-                  <div class="progress-item">
-                      <div class="progress-item__header">
-                          <span>Посещаемость</span>
-                          <span class="progress-item__value">@Model.Attendance / @(Model.Attendance + Model.Gaps)</span>
-                      </div>
-                      <div class="progress-bar">
-                          @{
-                          var totalClasses = Model.Attendance + Model.Gaps;
-                          // Защита от деления на ноль, если студент ещё не был ни на одном занятии
-                          var attendancePercent = totalClasses > 0 ? (Model.Attendance * 100 / totalClasses) : 0;
-                          }
-                          <div class="progress-bar__fill progress-bar__fill--success" style="width: @attendancePercent%"></div>
-                      </div>
-                  </div>
-
-                  <!-- 3. Прогресс по мероприятиям (Цель: 10 мероприятий) -->
-                  <div class="progress-item">
-                      <div class="progress-item__header">
-                          <span>Мероприятия</span>
-                          <span class="progress-item__value">@Model.Events / 10</span>
-                      </div>
-                      <div class="progress-bar">
-                          @{
-                          var eventsPercent = Math.Min(Model.Events * 100 / 10, 100);
-                          }
-                          <div class="progress-bar__fill progress-bar__fill--warning" style="width: @eventsPercent%"></div>
-                      </div>
-                  </div>
-
-                  <!-- 4. Прогресс по пропускам (Обратный прогресс: чем меньше, тем лучше) -->
-                  <div class="progress-item">
-                      <div class="progress-item__header">
-                          <span>Пропуски</span>
-                          <span class="progress-item__value">@Model.Gaps</span>
-                      </div>
-                      <div class="progress-bar">
-                          @{
-                          // Предположим, что 20 пропусков — это критический максимум
-                          var gapsPercent = Math.Min(Model.Gaps * 100 / 20, 100);
-                          }
-                          <div class="progress-bar__fill progress-bar__fill--error" style="width: @gapsPercent%"></div>
-                      </div>
-                  </div>
-
-              </div>
-          </div>
-      </div>
-
-      <!-- Не найден -->
-      <div id="profileNotFound" class="hidden">
-        <div class="not-found">
-          <div class="not-found__icon">👤</div>
-          <div class="not-found__title">Профиль не найден</div>
-          <p>Войди в игру, чтобы увидеть свою статистику.</p>
-          <a href="./auth.html" class="btn btn--primary" style="margin-top:var(--space-5); max-width:200px;">Войти</a>
+        <div class="stat-card">
+            <div class="stat-card__label">Пропуски</div>
+            <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
         </div>
-      </div>
+        <div class="stat-card">
+            <div class="stat-card__label">Мероприятия</div>
+            <div class="stat-card__value" id="statTotal"></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card__label">Баллы</div>
+            <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
+        </div>
+    </div>
+
+    <div class="winrate-bar-wrap">
+        <div class="winrate-bar-label">
+            <span>Прогресс</span>
+            <span id="winrateLabel">0%</span>
+        </div>
+        <div class="winrate-bar">
+            <div class="winrate-bar__fill" id="winrateBar"></div>
+        </div>
+    </div>
+</div>
+<div class="card" style="margin-top: var(--space-6);">
+    <h2 class="card__title">Статистика студента</h2>
+    <div class="profile-stats">
+
+        <div class="progress-item">
+            <div class="progress-item__header">
+                <span>Баллы</span>
+                <span class="progress-item__value" id="pgPointsText">0 / 500</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill" id="pgPoints" style="width:0%"></div>
+            </div>
+        </div>
+
+        <div class="progress-item">
+            <div class="progress-item__header">
+                <span>Посещаемость</span>
+                <span class="progress-item__value" id="pgAttText">0 / 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill progress-bar__fill--success" id="pgAtt" style="width:0%"></div>
+            </div>
+        </div>
+
+        <div class="progress-item">
+            <div class="progress-item__header">
+                <span>Мероприятия</span>
+                <span class="progress-item__value" id="pgEventsText">0 / 10</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill progress-bar__fill--warning" id="pgEvents" style="width:0%"></div>
+            </div>
+        </div>
+
+        <div class="progress-item">
+            <div class="progress-item__header">
+                <span>Пропуски</span>
+                <span class="progress-item__value" id="pgGapsText">0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-bar__fill progress-bar__fill--error" id="pgGaps" style="width:0%"></div>
+            </div>
+        </div>
 
     </div>
+</div>
   </main>
 
   <script src="./config.js"></script>

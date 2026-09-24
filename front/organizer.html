@@ -19,16 +19,16 @@
 
         .event-row {
             display: grid;
-            grid-template-columns: 60px 1fr auto;
+            grid-template-columns: 1fr auto;
             gap: var(--space-3);
             padding: var(--space-3);
             border-bottom: 1px solid var(--border);
             align-items: center;
         }
 
-            .event-row:last-child {
-                border-bottom: none;
-            }
+        .event-row:last-child {
+            border-bottom: none;
+        }
 
         .event-row__title {
             color: var(--text);
@@ -92,7 +92,10 @@
                         <label class="form-label">Количество мест</label>
                         <input class="form-input" type="number" id="eCapacity" value="20">
                     </div>
-
+                    <div class="form-group">
+                        <label class="form-label">Путь к изображению</label>
+                        <input class="form-input" id="eImage" placeholder="../img/news1.jpg">
+                    </div>
                     <button class="btn btn--primary" id="addBtn">Создать</button>
                     <div class="msg" id="addMsg"></div>
                 </div>
@@ -100,12 +103,13 @@
                 <!-- Список -->
                 <div class="card">
                     <h2 class="card__title">Существующие мероприятия</h2>
-                    <div id="eventsList">Загрузка...</div>
+                    <div id="eventsGrid">Загрузка...</div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- ВАЖНО: config.js подключаем ДО инлайн-скрипта -->
     <script src="./config.js"></script>
     <script>
         // Проверка роли
@@ -131,10 +135,23 @@
         }
 
         async function loadEvents() {
-            const list = document.getElementById('eventsList');
+            const list = document.getElementById('eventsGrid');
+            if (!list) {
+                console.error('Элемент eventsGrid не найден в HTML!');
+                return;
+            }
+
             try {
                 const res = await fetch(`${CONFIG.API}/events`);
+                if (!res.ok) throw new Error(`Сервер вернул ${res.status}`);
+
                 const items = await res.json();
+
+                if (!Array.isArray(items)) {
+                    console.error('Бэк вернул не массив:', items);
+                    list.innerHTML = '<p class="text-error">Неверный формат данных</p>';
+                    return;
+                }
 
                 if (!items.length) {
                     list.innerHTML = '<p class="text-muted">Мероприятий пока нет</p>';
@@ -142,19 +159,20 @@
                 }
 
                 list.innerHTML = items.map(e => `
-                <div class="event-row">
-                    <div>
-                        <div class="event-row__title">${escapeHtml(e.title)}</div>
-                        <div class="event-row__meta">
-                            📅 ${formatDate(e.eventDate)} · 📍 ${escapeHtml(e.location || '—')}
-                            · +${e.pointsReward} опыта · мест: ${e.capacity}
+                    <div class="event-row">
+                        <div>
+                            <div class="event-row__title">${escapeHtml(e.title)}</div>
+                            <div class="event-row__meta">
+                                📅 ${formatDate(e.eventDate)} · 📍 ${escapeHtml(e.location || '—')}
+                                · +${e.pointsReward ?? 0} опыта · мест: ${e.capacity ?? '—'}
+                            </div>
                         </div>
+                        <button class="btn btn--ghost" style="max-width:120px;"
+                                onclick="deleteEvent(${e.id})">Удалить</button>
                     </div>
-                    <button class="btn btn--ghost" style="max-width:120px;"
-                            onclick="deleteEvent(${e.id})">Удалить</button>
-                </div>
-            `).join('');
-            } catch {
+                `).join('');
+            } catch (err) {
+                console.error('Ошибка загрузки:', err);
                 list.innerHTML = '<p class="text-error">Ошибка загрузки</p>';
             }
         }
@@ -167,6 +185,7 @@
             const category = document.getElementById('eCategory').value.trim();
             const pointsReward = parseInt(document.getElementById('ePoints').value) || 0;
             const capacity = parseInt(document.getElementById('eCapacity').value) || 0;
+            const imageUrl = document.getElementById('eImage').value.trim();
 
             if (!title || !eventDate) {
                 addMsg.textContent = 'Заполните название и дату';
@@ -181,7 +200,8 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        title, description, eventDate, location, category, pointsReward, capacity
+                        title, description, eventDate, location, category,
+                        pointsReward, capacity, imageUrl
                     })
                 });
 
@@ -197,9 +217,13 @@
                 document.getElementById('eTitle').value = '';
                 document.getElementById('eDesc').value = '';
                 document.getElementById('eDate').value = '';
+                document.getElementById('eLocation').value = '';
+                document.getElementById('eCategory').value = '';
+                document.getElementById('eImage').value = '';
 
                 loadEvents();
-            } catch {
+            } catch (err) {
+                console.error(err);
                 addMsg.textContent = 'Сервер недоступен';
                 addMsg.className = 'msg msg--error';
             } finally {
@@ -210,12 +234,17 @@
         async function deleteEvent(id) {
             if (!confirm('Удалить мероприятие?')) return;
             try {
-                await fetch(`${CONFIG.API}/events/${id}`, { method: 'DELETE' });
+                const res = await fetch(`${CONFIG.API}/events/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Не удалось удалить');
                 loadEvents();
-            } catch {
+            } catch (err) {
+                console.error(err);
                 alert('Ошибка удаления');
             }
         }
+
+        // Экспортируем в window, потому что inline onclick ищет функции там
+        window.deleteEvent = deleteEvent;
 
         addBtn.addEventListener('click', addEvent);
         loadEvents();

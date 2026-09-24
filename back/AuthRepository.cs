@@ -175,6 +175,36 @@ public class AuthRepository
 
         return affected == 1;
     }
+    public async Task<User?> GetFullUserAsync(string login)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        await conn.OpenAsync();
+
+        string sql = @"SELECT id, username, email, points, attendance, gaps, events, course
+                   FROM users
+                   WHERE username = @login OR email = @login
+                   LIMIT 1";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@login", login);
+
+        using var reader = await cmd.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            return new User
+            {
+                Id = reader.GetInt32("id"),
+                Username = reader.GetString("username"),
+                Email = reader.GetString("email"),
+                Points = reader.GetInt32("points"),
+                Attendance = reader.GetInt32("attendance"),
+                Gaps = reader.GetInt32("gaps"),
+                Events = reader.GetInt32("events"),
+                Course = reader.GetInt32("course")
+            };
+        }
+        return null;
+    }
     //manage
     public async Task<bool> StaffAuth(string Username, string PasswordHash)
     {

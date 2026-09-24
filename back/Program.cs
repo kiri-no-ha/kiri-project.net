@@ -130,6 +130,11 @@ app.MapDelete("/events/{id}", async (int id, AuthRepository repo) =>
     var ok = await repo.DeleteEventAsync(id);
     return ok ? Results.Ok(new { ok = true }) : Results.NotFound();
 });
+app.MapGet("/profile/{login}", async (string login, AuthRepository repo) =>
+{
+    var user = await repo.GetFullUserAsync(login);
+    return user == null ? Results.NotFound() : Results.Ok(user);
+});
 app.Run();
 
 

@@ -329,7 +329,106 @@
             .info-with-media__media {
                 order: -1; /* гифка сверху на телефонах */
             }
-        }
+            .events-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: var(--space-5);
+                margin: var(--space-6) auto 0;
+                max-width: 1200px;
+            }
+
+            .event-card {
+                display: flex;
+                flex-direction: column;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                overflow: hidden;
+                transition: border-color var(--transition);
+            }
+
+                .event-card:hover {
+                    border-color: var(--accent);
+                }
+
+            .event-card__image {
+                position: relative;
+                aspect-ratio: 16 / 9;
+                overflow: hidden;
+                background: var(--surface-2);
+            }
+
+                .event-card__image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+            .event-card__tag {
+                position: absolute;
+                top: var(--space-3);
+                left: var(--space-3);
+                padding: 4px 10px;
+                background: var(--accent);
+                color: var(--bg);
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 700;
+            }
+
+            .event-card__body {
+                padding: var(--space-4);
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+
+            .event-card__title {
+                font-family: var(--font-display);
+                font-size: 16px;
+                color: var(--text);
+                margin: 0;
+            }
+
+            .event-card__meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--space-3);
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+
+            .event-card__desc {
+                font-size: 13px;
+                color: var(--text-muted);
+                line-height: 1.5;
+                flex: 1;
+            }
+
+            .event-card__reward {
+                font-size: 13px;
+                color: var(--accent);
+                font-weight: 600;
+            }
+
+            .event-card__btn {
+                margin: var(--space-4);
+                margin-top: 0;
+            }
+
+            @media (max-width: 768px) {
+                .events-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                    padding-inline: var(--space-4);
+                }
+            }
+
+            @media (max-width: 500px) {
+                .events-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
         }
     </style>
 
@@ -384,156 +483,18 @@
                     </div>
                 </div>
             </div>
-
-            <div class="countdown-released" id="releasedMsg">
-
-            </div>
-
-            <section class="download-card">
-                <div class="download-card__title" style="text-align: center;">Мероприятия колледжа</div>
-                <div class="download-card__text">
-                    <p style="text-align: center;">
-                        Мероприятия колледжа что проходили или будут проходить
-                    </p>
-                </div>
-
-
-
-                <div class="info-with-media">
-                    <div class="info-with-media__left">
-                        <div class="info-box">
-                            <div class="info-box__title">День бармена</div>
-                            <div class="info-box__content">
-                                Международный день бармена — профессиональный праздник всех, кто стоит за стойкой.
-                                Студенты отделения «Технология продукции и организация общественного питания»
-                                подготовили познавательную программу: история коктейлей, культура подачи,
-                                работа с гостем и секреты идеального баланса вкуса.
-                                Гости увидели мастер-класс по приготовлению безалкогольных миксов
-                                и приняли участие в викторине на знание барного этикета.
-                            </div>
-                        </div>
-
-                        <div class="info-with-media__bottom">
-                            <div class="info-with-media__media">
-                                <div class="screenshot-item" style="height:100%;">
-                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
-                                        <img src="../img/news1.jpg" alt="День бармена" loading="lazy">
-                                    </div>
-                                    <div class="screenshot-item__footer">
-                                        <span class="screenshot-item__caption">День бармена</span>
-                                        <span class="screenshot-item__tag">ФОТО</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Два блока справа -->
-                            <div class="info-with-media__side">
-                                <div class="info-box">
-                                    <div class="info-box__title">20 февраля 2026 · День бармена</div>
-                                    <div class="info-box__content">• Активные перемены с викторинами и подарками;<br>• Дегустация лимонадов, где студенты смогли насладиться освежающими лимонадами, приготовленными своими руками;<br>• Кофе‑брейк для преподавателей: на переменах студенты приглашали педагогов на ароматный кофе.</div>
-                                </div>
-                                <div class="info-box">
-                                    <div class="info-box__title">Формат мероприятий</div>
-                                    <div class="info-box__content">
-                                        <ul class="system-list">
-                                            Студенты профильных направлений соревнуются в конкурсах профессионального мастерства, например, в ежегодном внутриколледжном конкурсе «Классические коктейли
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <section class="download-card">
+                    <div class="download-card__title" style="text-align: center;">Мероприятия колледжа</div>
+                    <div class="download-card__text">
+                        <p style="text-align: center;">
+                            Мероприятия колледжа, которые проходили или будут проходить
+                        </p>
                     </div>
-                </div>
-                <div class="info-with-media">
-                    <div class="info-with-media__left">
-                        <div class="info-box">
-                            <div class="info-box__title">Новогодние мероприятия</div>
-                            <div class="info-box__content">    Новогодняя программа объединит .все отделения колледжа. Студенты приготовили номера, репетировали, оформят сцену и аудитории. Вечер завершится общей ёлкой, награждением и праздничной дискотекой, где каждый сможет отметить окончание семестра вместе с группой и преподавателями.</div>
-                        </div>
 
-                        <div class="info-with-media__bottom">
-                            <div class="info-with-media__media">
-                                <div class="screenshot-item" style="height:100%;">
-                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
-                                        <img src="../img/news2.jpg" alt="новый год" loading="lazy">
-                                    </div>
-                                    <div class="screenshot-item__footer">
-                                        <span class="screenshot-item__caption">новый год</span>
-                                        <span class="screenshot-item__tag">ФОТО</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Два блока справа -->
-                            <div class="info-with-media__side">
-                                <div class="info-box">
-                                    <div class="info-box__title">25 декабря 2026 · Новогодние мероприятия</div>
-                                    <div class="info-box__content">
-                                        • Театрализованные представления от студентов всех отделений;<br>
-                                        • Танцевальные баттлы и конкурс «Перетанцуй меня, если сможешь», где команды соревновались в хореографии и импровизации;<br>
-                                        • Конкурс на лучшее новогоднее оформление аудитории: группы украшали кабинеты, готовили стенгазеты и защищали свои проекты перед жюри;<br>
-                                        • Праздничный концерт с номерами, песнями и миниатюрами, подготовленными студенческим активом;<br>
-                                        • Награждение активных студентов грамотами и призами от администрации колледжа.
-                                    </div>
-                                </div>
-                                <div class="info-box">
-                                    <div class="info-box__title">Системные требования</div>
-                                    <div class="info-box__content">
-                                        <ul class="system-list">
-                                            <li>Windows 10 / 11</li>
-                                            <li>4 ГБ ОЗУ</li>
-                                            <li>DirectX 11</li>
-                                            <li>Любой современный CPU</li>
-                                            <li>500 МБ свободного места</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="eventsGrid" class="events-grid">
+                        <p class="text-muted">Загрузка...</p>
                     </div>
-                </div>
-                <div class="info-with-media">
-                    <div class="info-with-media__left">
-                        <div class="info-box">
-                            <div class="info-box__title">Об игре</div>
-                            <div class="info-box__content">Файтинг, рассчитанный на четырех игроков и четырех персонажей, каждый из которых случайно ввязался в драку вследствие попытки одного из героев станцевать лезгинку на столе. Все происходит в таверне, где культурно отдыхали магический инопланетянин под кодовым именем Иннокентий, королева змей ламия Алина, ксенокот помесь кота и жука, чья раса захватила соседнюю галактику, и лучший мужчина на свете, любимец женщин и детей, нашедший любовь на дне общества с бутылкой супер мужик <strong>«Амур»</strong>!!!!..</div>
-                        </div>
-
-                        <div class="info-with-media__bottom">
-                            <div class="info-with-media__media">
-                                <div class="screenshot-item" style="height:100%;">
-                                    <div class="screenshot-item__media" style="aspect-ratio:16/9;">
-                                        <img src="../img/news1.jpg" alt="День бармена" loading="lazy">
-                                    </div>
-                                    <div class="screenshot-item__footer">
-                                        <span class="screenshot-item__caption">День бармена</span>
-                                        <span class="screenshot-item__tag">ФОТО</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Два блока справа -->
-                            <div class="info-with-media__side">
-                                <div class="info-box">
-                                    <div class="info-box__title">Особенности</div>
-                                    <div class="info-box__content">• маленькие карты<br>• Сетевая игра<br>• Рейтинговая система<br>• Странные герои</div>
-                                </div>
-                                <div class="info-box">
-                                    <div class="info-box__title">Системные требования</div>
-                                    <div class="info-box__content">
-                                        <ul class="system-list">
-                                            <li>Windows 10 / 11</li>
-                                            <li>4 ГБ ОЗУ</li>
-                                            <li>DirectX 11</li>
-                                            <li>Любой современный CPU</li>
-                                            <li>500 МБ свободного места</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </section>
                 <section class="screenshots-section">
                     <div class="screenshots-section__header">
                         <h2 class="screenshots-section__title">Скриншоты</h2>
@@ -559,7 +520,7 @@
                     </div>
 
                 </section>
-</div>
+            </div>
         </div>
     </main>
 
@@ -592,7 +553,85 @@
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
-    </script>
+        // ========================
+        // Отрисовка мероприятий из БД
+        // ========================
+        async function loadEventsGrid() {
+            const grid = document.getElementById('eventsGrid');
+            if (!grid) return;
 
+            try {
+                const res = await fetch(`${CONFIG.API}/events`);
+                const items = await res.json();
+
+                if (!items.length) {
+                    grid.innerHTML = '<p class="text-muted">Мероприятий пока нет</p>';
+                    return;
+                }
+
+                grid.innerHTML = items.map(e => `
+            <article class="event-card">
+                <div class="event-card__image">
+                    <img src="${e.imageUrl || 'https://placehold.co/600x340/37281f/ebe825?text=Мероприятие'}"
+                         alt="${escapeHtml(e.title)}" loading="lazy">
+                    ${e.category ? `<span class="event-card__tag">${escapeHtml(e.category)}</span>` : ''}
+                </div>
+                <div class="event-card__body">
+                    <h3 class="event-card__title">${escapeHtml(e.title)}</h3>
+                    <div class="event-card__meta">
+                        <span>📅 ${formatDate(e.eventDate)}</span>
+                        ${e.location ? `<span>📍 ${escapeHtml(e.location)}</span>` : ''}
+                    </div>
+                    <p class="event-card__desc">${escapeHtml(e.description || '')}</p>
+                    <div class="event-card__reward">+${e.pointsReward} опыта · мест: ${e.capacity}</div>
+                </div>
+                <button class="btn btn--primary event-card__btn"
+                        onclick="registerEvent(${e.id})">
+                    Записаться
+                </button>
+            </article>
+        `).join('');
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = '<p class="text-error">Ошибка загрузки мероприятий</p>';
+            }
+        }
+
+        // ========================
+        // Утилиты
+        // ========================
+        function escapeHtml(s) {
+            return String(s || '')
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            const d = new Date(iso);
+            return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        // ========================
+        // Запись на мероприятие
+        // ========================
+        function registerEvent(id) {
+            const regs = JSON.parse(localStorage.getItem('eventRegs') || '[]');
+            if (regs.includes(id)) {
+                alert('Вы уже записаны на это мероприятие');
+                return;
+            }
+            regs.push(id);
+            localStorage.setItem('eventRegs', JSON.stringify(regs));
+            alert('✓ Вы записались на мероприятие');
+        }
+
+        // ========================
+        // Старт
+        // ========================
+        document.addEventListener('DOMContentLoaded', loadEventsGrid);
+    </script>
+    <script src="./config.js"></script>
+    <script src="./js/events.js"></script>
 </body>
 </html>
