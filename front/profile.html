@@ -123,11 +123,28 @@
       margin-bottom: var(--space-2);
     }
 
-    /* Скелетон для профиля */
     .skeleton-avatar-ph {
       width: 64px;
       height: 64px;
       border-radius: 50%;
+    }
+
+    /* Кнопка входа/выхода в навбаре */
+    .auth-btn {
+      margin-left: 12px;
+      padding: 6px 14px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: color var(--transition, 0.2s), border-color var(--transition, 0.2s);
+    }
+    .auth-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
     }
   </style>
 </head>
@@ -137,102 +154,107 @@
     <a href="./leaderboard.html" class="navbar__logo">Царицино<span style="color:var(--accent)">.</span></a>
     <ul class="navbar__links">
         <li><a href="./leaderboard.html">Статус студента</a></li>
-        <li><a href="./profile.html">Профиль</a></li>
+        <li><a href="./profile.html" class="active">Профиль</a></li>
         <li><a href="./download.html">Новости</a></li>
         <li><a href="./seller.html">покупки</a></li>
-        <li><a href="./faq.html" class="active">FAQ</a></li>
+        <li><a href="./faq.html">FAQ</a></li>
     </ul>
-    <div class="navbar__user">пользователь: <span id="navUsername">—</span></div>
+    <div class="navbar__user">
+        пользователь: <span id="navUsername">—</span>
+        <a href="./auth.html" id="loginBtn" class="auth-btn">Войти</a>
+    </div>
   </nav>
 
   <main class="page">
-<div id="profileContent" class="hidden">
-    <div class="profile-header">
-        <div class="profile-avatar" id="profileAvatar"></div>
-        <div>
-            <div class="profile-name" id="profileName"></div>
-            <div class="profile-rank" id="profileRank"></div>
+    <div id="profileContent" class="hidden">
+        <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar"></div>
+            <div>
+                <div class="profile-name" id="profileName"></div>
+                <div class="profile-rank" id="profileRank"></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card__label">Посещения</div>
+                <div class="stat-card__value stat-card__value--success" id="statWins"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__label">Пропуски</div>
+                <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__label">Мероприятия</div>
+                <div class="stat-card__value" id="statTotal"></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card__label">Баллы</div>
+                <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
+            </div>
+        </div>
+
+        <div class="winrate-bar-wrap">
+            <div class="winrate-bar-label">
+                <span>Прогресс</span>
+                <span id="winrateLabel">0%</span>
+            </div>
+            <div class="winrate-bar">
+                <div class="winrate-bar__fill" id="winrateBar"></div>
+            </div>
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-card__label">Посещения</div>
-            <div class="stat-card__value stat-card__value--success" id="statWins"></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card__label">Пропуски</div>
-            <div class="stat-card__value stat-card__value--error" id="statLosses"></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card__label">Мероприятия</div>
-            <div class="stat-card__value" id="statTotal"></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-card__label">Баллы</div>
-            <div class="stat-card__value stat-card__value--accent" id="statTime"></div>
+    <div class="card" style="margin-top: var(--space-6);">
+        <h2 class="card__title">Статистика студента</h2>
+        <div class="profile-stats">
+
+            <div class="progress-item">
+                <div class="progress-item__header">
+                    <span>Баллы</span>
+                    <span class="progress-item__value" id="pgPointsText">0 / 500</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill" id="pgPoints" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-item__header">
+                    <span>Посещаемость</span>
+                    <span class="progress-item__value" id="pgAttText">0 / 0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill progress-bar__fill--success" id="pgAtt" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-item__header">
+                    <span>Мероприятия</span>
+                    <span class="progress-item__value" id="pgEventsText">0 / 10</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill progress-bar__fill--warning" id="pgEvents" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="progress-item">
+                <div class="progress-item__header">
+                    <span>Пропуски</span>
+                    <span class="progress-item__value" id="pgGapsText">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill progress-bar__fill--error" id="pgGaps" style="width:0%"></div>
+                </div>
+            </div>
+
         </div>
     </div>
-
-    <div class="winrate-bar-wrap">
-        <div class="winrate-bar-label">
-            <span>Прогресс</span>
-            <span id="winrateLabel">0%</span>
-        </div>
-        <div class="winrate-bar">
-            <div class="winrate-bar__fill" id="winrateBar"></div>
-        </div>
-    </div>
-</div>
-<div class="card" style="margin-top: var(--space-6);">
-    <h2 class="card__title">Статистика студента</h2>
-    <div class="profile-stats">
-
-        <div class="progress-item">
-            <div class="progress-item__header">
-                <span>Баллы</span>
-                <span class="progress-item__value" id="pgPointsText">0 / 500</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-bar__fill" id="pgPoints" style="width:0%"></div>
-            </div>
-        </div>
-
-        <div class="progress-item">
-            <div class="progress-item__header">
-                <span>Посещаемость</span>
-                <span class="progress-item__value" id="pgAttText">0 / 0</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-bar__fill progress-bar__fill--success" id="pgAtt" style="width:0%"></div>
-            </div>
-        </div>
-
-        <div class="progress-item">
-            <div class="progress-item__header">
-                <span>Мероприятия</span>
-                <span class="progress-item__value" id="pgEventsText">0 / 10</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-bar__fill progress-bar__fill--warning" id="pgEvents" style="width:0%"></div>
-            </div>
-        </div>
-
-        <div class="progress-item">
-            <div class="progress-item__header">
-                <span>Пропуски</span>
-                <span class="progress-item__value" id="pgGapsText">0</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-bar__fill progress-bar__fill--error" id="pgGaps" style="width:0%"></div>
-            </div>
-        </div>
-
-    </div>
-</div>
   </main>
 
   <script src="./config.js"></script>
   <script src="./js/profile.js"></script>
+  <script src="./js/authButton.js"></script>
 </body>
 </html>

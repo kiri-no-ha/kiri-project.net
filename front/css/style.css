@@ -152,6 +152,22 @@ h1, h2, h3, h4, h5, h6 {
         color: var(--accent);
         font-weight: 500;
     }
+    .auth-btn {
+    margin-left: 12px;
+    padding: 6px 14px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.auth-btn:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
 
 /* ========================
    Адаптив навбара

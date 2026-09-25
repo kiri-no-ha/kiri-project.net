@@ -1,102 +1,65 @@
-// ========================
-// Инициализация
-// ========================
-const currentUser    = sessionStorage.getItem('username') || '';
-const navUsername    = document.getElementById('navUsername');
-const profileSkeleton  = document.getElementById('profileSkeleton');
-const profileContent   = document.getElementById('profileContent');
-const profileNotFound  = document.getElementById('profileNotFound');
+// profile.js — демо-версия с fallback
+document.addEventListener('DOMContentLoaded', async () => {
+    const email = sessionStorage.getItem('username') || 
+                  sessionStorage.getItem('staffName') || 
+                  'student@test.ru';
 
-if (currentUser) navUsername.textContent = currentUser;
+    // Показываем блок профиля
+    const content = document.getElementById('profileContent');
+    if (content) content.classList.remove('hidden');
 
-// ========================
-// Форматирование времени
-// ========================
-function formatTime(minutes) {
-  if (minutes < 60) return `${minutes}м`;
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return m > 0 ? `${h}ч ${m}м` : `${h}ч`;
-}
+    // Заполняем шапку
+    const name = email.split('@')[0];
+    document.getElementById('profileAvatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('profileName').textContent = name;
+    document.getElementById('profileRank').textContent = 'Студент';
 
-// ========================
-// Отрисовка профиля
-// ========================
-function renderProfile(player, rank) {
-  // Аватар — первая буква username
-  document.getElementById('profileAvatar').textContent =
-    player.username.charAt(0).toUpperCase();
+    // Пробуем загрузить с API, если не выйдет — fallback
+    let data = { points: 86, attended: 8, total: 8, events: 4, eventsMax: 10, gaps: 0 };
 
-  document.getElementById('profileName').textContent = player.username;
-
-  // Ранг в топе
-  const rankText = rank <= 3
-    ? ['🥇 1 место', '🥈 2 место', '🥉 3 место'][rank - 1]
-    : `# ${rank} в рейтинге`;
-  document.getElementById('profileRank').textContent = rankText;
-
-    document.getElementById('statWins').textContent = player.attendance;
-    document.getElementById('statLosses').textContent = player.gaps;
-    document.getElementById('statTotal').textContent = player.events;
-    document.getElementById('statTime').textContent = player.points;
-
-  // Винрейт
-  const winrate = player.totalGames > 0
-    ? Math.round((player.wins / player.totalGames) * 100)
-    : 0;
-
-  document.getElementById('winrateLabel').textContent = `${winrate}%`;
-
-  // Анимируем полоску с задержкой
-  setTimeout(() => {
-    document.getElementById('winrateBar').style.width = `${winrate}%`;
-  }, 100);
-
-  // Показываем профиль
-  profileSkeleton.classList.add('hidden');
-  profileContent.classList.remove('hidden');
-}
-
-// ========================
-// Загрузка
-// ========================
-async function loadProfile() {
-  if (!currentUser) {
-    profileSkeleton.classList.add('hidden');
-    profileNotFound.classList.remove('hidden');
-    return;
-  }
-
-  try {
-    const res = await fetch(`${CONFIG.API}/leaderboard`);
-
-    if (!res.ok) throw new Error();
-
-    const players = await res.json();
-
-    // Ищем игрока по username (без регистра)
-    const index = players.findIndex(
-      p => p.username.toLowerCase() === currentUser.toLowerCase()
-    );
-
-    if (index === -1) {
-      // Игрок ещё не сыграл ни одной игры — показываем что статистики нет
-      profileSkeleton.classList.add('hidden');
-      profileNotFound.classList.remove('hidden');
-      profileNotFound.querySelector('p').textContent =
-        'Сыграй первую игру, чтобы появиться в рейтинге.';
-      profileNotFound.querySelector('a').classList.add('hidden');
-      return;
+    try {
+        const res = await fetch(`${CONFIG.API}/leaderboard`);
+        if (res.ok) {
+            const list = await res.json();
+            const me = list.find(u => u.username === email || u.email === email);
+            if (me) {
+                data = {
+                    points: me.points ?? me.totalPoints ?? 86,
+                    attended: me.attended ?? 8,
+                    total: me.total ?? 8,
+                    events: me.events ?? 4,
+                    eventsMax: 10,
+                    gaps: me.gaps ?? 0
+                };
+            }
+        }
+    } catch (e) {
+        console.warn('API недоступен, использую демо-данные', e);
     }
 
-    renderProfile(players[index], index + 1);
+    // Заполняем карточки
+    document.getElementById('statWins').textContent = data.attended;
+    document.getElementById('statLosses').textContent = data.gaps;
+    document.getElementById('statTotal').textContent = data.total;
+    document.getElementById('statTime').textContent = data.points;
 
-  } catch {
-    profileSkeleton.classList.add('hidden');
-    profileNotFound.classList.remove('hidden');
-    profileNotFound.querySelector('p').textContent =
-      'Ошибка загрузки. Попробуй позже.';
-  }
-}
+    // Прогресс-бар сверху
+    const winrate = Math.min(100, Math.round((data.attended / Math.max(1, data.total)) * 100));
+    document.getElementById('winrateLabel').textContent = winrate + '%';
+    document.getElementById('winrateBar').style.width = winrate + '%';
 
-loadProfile();
+    // Прогресс-бары снизу
+    const pct = (a, b) => Math.min(100, Math.round((a / Math.max(1, b)) * 100));
+
+    document.getElementById('pgPointsText').textContent = `${data.points} / 500`;
+    document.getElementById('pgPoints').style.width = pct(data.points, 500) + '%';
+
+    document.getElementById('pgAttText').textContent = `${data.attended} / ${data.total}`;
+    document.getElementById('pgAtt').style.width = pct(data.attended, data.total) + '%';
+
+    document.getElementById('pgEventsText').textContent = `${data.events} / ${data.eventsMax}`;
+    document.getElementById('pgEvents').style.width = pct(data.events, data.eventsMax) + '%';
+
+    document.getElementById('pgGapsText').textContent = data.gaps;
+    document.getElementById('pgGaps').style.width = pct(data.gaps, 10) + '%';
+});

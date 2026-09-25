@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ — Game</title>
+    <title>FAQ</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,9 +165,10 @@
             <li><a href="./seller.html">покупки</a></li>
             <li><a href="./faq.html" class="active">FAQ</a></li>
         </ul>
-        <div class="navbar__user">
-            user: <span id="navUsername">—</span>
-        </div>
+    <div class="navbar__user">
+        пользователь: <span id="navUsername">—</span>
+        <a href="./auth.html" id="loginBtn" class="auth-btn">Войти</a>
+    </div>
     </nav>
 
     <main class="page">
@@ -333,6 +334,7 @@
             emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
         });
     </script>
-
+  <script src="./js/auth.js"></script>
+  <script src="./config.js"></script>
 </body>
 </html>
